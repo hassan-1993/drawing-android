@@ -1,9 +1,7 @@
-package project.myapplication;
+package ha.drawingexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import ha.mylibrarytesting.Testing;
 
 public class MainActivity extends AppCompatActivity {
 
