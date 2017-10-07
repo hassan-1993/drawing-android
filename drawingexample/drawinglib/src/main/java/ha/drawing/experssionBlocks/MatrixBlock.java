@@ -1,16 +1,16 @@
-package me.math.com.math.drawing.experssionBlocks;
+package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.example.scanner.TokenID;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import ha.drawing.Setting;
 
-import me.math.com.math.drawing.cursorblock.Cursor;
-import me.math.com.math.drawing.Setting;
-import me.math.com.math.cas.expression.parser.scanner.TokenID;
 
 /**
  * Created by hassan on 12/26/2016.
@@ -25,33 +25,15 @@ public class MatrixBlock extends Block {
 
 
     public MatrixBlock() {
-        super(TokenID.T_MATRIX, "");
-        leftBracket = new BracketBlock("(", TokenID.T_LEFT_BRACKET);
-        rightBracket = new BracketBlock(")", TokenID.T_RIGHT_BRACKET);
+        super(TokenID.MATRIX, "");
+        leftBracket = new BracketBlock("(", TokenID.LEFT_BRACKET);
+        rightBracket = new BracketBlock(")", TokenID.RIGHT_BRACKET);
     }
 
     /*FIXME: 1/20/2017 :if we add division inside a matrix block of one row and touched near the division block ,an empty block is added automatically to left or right of matrix
      which is wrong, we need to take in consideration the left and right bracket as well
      */
 
-    @Override
-    public Cursor onTouch(float touchX, float touchY) {
-        touchX -= x;
-        touchY -= y;
-//        if(this.rectF.contains(touchX,touchY)){
-//            for(Block row:rows){
-//                Cursor touchedBlock=row.onTouchUp(touchX,touchY);
-//                if(touchedBlock!=null) return touchedBlock;
-//            }
-//
-//            if(touchX<leftSide(rectF)){
-//                return touched(true);
-//            }else{
-//                return touched(false);
-//            }
-//        }
-        return null;
-    }
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
@@ -306,128 +288,6 @@ public class MatrixBlock extends Block {
         }
 
         this.width = maxWidth;
-    }
-
-
-    @Override
-    public Cursor touched(boolean left) {
-
-        EmptyBlock emptyBlock = new EmptyBlock();
-        if (left) {
-            Block before = before();
-            if (before != null && (before.getId() == TokenID.T_TEXT || before.getId() == TokenID.T_EMPTY)) {
-                return before.touched(false);
-            }
-            getParent().addChild(index(), emptyBlock);
-            return new Cursor(emptyBlock, true);
-        } else {
-            Block after = next();
-            if (after != null && (after.getId() == TokenID.T_TEXT || after.getId() == TokenID.T_EMPTY)) {
-                return after.touched(true);
-            }
-            getParent().addChild(index() + 1, emptyBlock);
-            return new Cursor(emptyBlock, true);
-        }
-    }
-
-    @Override
-    public Cursor moveLeft(boolean isLeft, Block caller) {
-
-        if (caller == this) {
-            /*means move through it */
-        }
-        /*check if caller is a row or a col*/
-        int rowIndex = rows.indexOf(caller);
-        int whichRow = checkIfCallerIsColumn(caller);
-
-
-        if (rowIndex != -1) {
-            /*means caller is a row so move to the row before */
-            if (rowIndex > 0) {
-                return ((BlockContainer) rows.get(rowIndex - 1).getLastChild()).getLastChild().touched(false);
-            } else {
-                return touched(true);
-            }
-        } else if (whichRow != -1) {
-            int colIndex = this.rows.get(whichRow).getChildren().indexOf(caller);
-            if (colIndex > 0) { /*move to last child in col before it column before it*/
-                return ((BlockContainer) this.rows.get(whichRow).getChild(colIndex - 1)).getLastChild().touched(false);
-            } else {
-                /*move to row before it*/
-                return moveLeft(isLeft, this.rows.get(whichRow));
-            }
-        } else {
-            if (isLeft) {
-                return ((BlockContainer) rows.get(rows.size() - 1).getLastChild()).getLastChild().touched(false);
-            } else {
-                return touched(true);
-            }
-        }
-    }
-
-    @Override
-    public Cursor moveRight(boolean isLeft, Block caller) {
-        /*check if caller is one of rows */
-        int rowIndex = rows.indexOf(caller);
-
-        int whichRow = checkIfCallerIsColumn(caller);
-
-        if (rowIndex != -1) {
-            /*means caller is a row so move to the row after */
-            if (rowIndex < rows.size() - 1) {
-                return ((BlockContainer) rows.get(rowIndex + 1).getChild(0)).getChild(0).touched(true);
-            } else {
-                Block after = next();
-                if (after != null) return after.touched(true);
-                /*reached end of matrix move right out of it*/
-                return touched(false);
-            }
-        } else if (whichRow != -1) {
-            int colIndex = this.rows.get(whichRow).getChildren().indexOf(caller);
-            if (colIndex + 1 < this.rows.get(whichRow).getChildCount()) { /*move to last child in col before it column before it*/
-                return ((BlockContainer) this.rows.get(whichRow).getChild(colIndex + 1)).getChild(0).touched(true);
-            } else {
-                /*move to row before it*/
-                return moveRight(isLeft, this.rows.get(whichRow + 1));
-            }
-        } else if (isLeft) {
-            return touched(true);
-        } else {
-            return ((BlockContainer) rows.get(0).getChild(0)).getChild(0).touched(true);
-        }
-    }
-
-    @Override
-    public Cursor delete(boolean isLeft, Block caller, boolean delete) {
-        int callerIndex = this.rows.indexOf(caller);
-
-        int whichRow = checkIfCallerIsColumn(caller);
-        if (callerIndex != -1 || whichRow != -1) {
-
-            if (whichRow == 0 && ((BlockContainer) this.rows.get(0)).getChildren().indexOf(caller) == 0) {
-            /*check if matrix block contains only one child of empty block in all cols in every block,if so means we should delete the matrix block*/
-                boolean remove = true;
-                for (BlockContainer row : this.rows) {
-                    for (Block col : row.getChildrens()) {
-                        if (((BlockContainer) col).getChildCount() == 1 && ((BlockContainer) col).getChild(0) instanceof EmptyBlock) {
-                        /**/
-                        } else {
-                            remove = false;
-                            break;
-                        }
-                    }
-                    if (!remove) break;
-                }
-
-                if (remove) {
-                    return parent.delete(false, this, true);
-                }
-            }
-            /*if caller one of the rows let moveleft handle it*/
-            return moveLeft(true, caller);
-        } else {
-            return moveLeft(isLeft, caller);
-        }
     }
 
     /*return the row index if caller is a column*/

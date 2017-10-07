@@ -1,13 +1,12 @@
-package me.math.com.math.drawing.experssionBlocks;
+package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.example.scanner.TokenID;
 
-import me.math.com.math.drawing.TouchManager;
-import me.math.com.math.drawing.cursorblock.Cursor;
-import me.math.com.math.drawing.Setting;
-import me.math.com.math.cas.expression.parser.scanner.TokenID;
+import ha.drawing.Setting;
+
 
 /**
  * Created by hassan on 12/26/2016.
@@ -21,7 +20,7 @@ public class BaseBlock extends Block {
    // private RectF logRect;
 
     public BaseBlock(String log) {
-        super(TokenID.T_BASE,"");
+        super(TokenID.BASE,"");
         this.log=new TextBlock(log);
         this.base=new BlockContainer();
         this.base.setParent(this);
@@ -54,83 +53,9 @@ public class BaseBlock extends Block {
 
     }
 
-    @Override
-    public Cursor touched(boolean left) {
-        EmptyBlock emptyBlock=new EmptyBlock();
-        if(left){
-            Block before=before();
-            if(before!=null && (before.getId()==TokenID.T_TEXT|| before.getId()==TokenID.T_EMPTY)){
-                return before.touched(false);
-            }
-            getParent().addChild(index(),emptyBlock);
-            return new Cursor(emptyBlock,true);
-        }else{
-
-            return getBase().getLastChild().touched(false);
-        }
-    }
-
-    @Override
-    public Cursor moveLeft(boolean isLeft, Block caller) {
-        if(caller==this.base){
-            return touched(true);
-        }else {
-            if (isLeft) {
-                return this.base.getLastChild().touched(false);
-            } else {
-                return touched(false);
-            }
-        }
-
-    }
-
-    @Override
-    public Cursor moveRight(boolean isLeft, Block caller) {
-        if(caller==this.base){
-            /*there is always a bracket after the base*/
-            return this.next().touched(false);
-        }else {
-            if (isLeft) {
-                return   touched(true);
-            } else {
-                return this.base.getChild(0).touched(true);
-            }
-        }
-    }
-
-    @Override
-    public Cursor delete(boolean isLeft, Block caller, boolean delete) {
-        if(caller==this.base){
-            /**/
-            if(this.base.getChildCount()==1 && this.base.getChild(0).getId()==TokenID.T_EMPTY){
-                return parent.delete(false,this,true);
-            }else{
-                /*means move left outside of the division block*/
-                return moveLeft(true,caller);
-            }
-        }else{
-            /*let move left handle it*/
-            return moveLeft(isLeft,caller);
-        }
-    }
 
 
-    @Override
-    public Cursor onTouch(float touchX, float touchY) {
-        /*shift origin to become at (0,0)*/
-        touchX-=x;
-        touchY-=y;
 
-        float baseDistance= TouchManager.getDistance(touchX,touchY,base);
-        float testDistance=TouchManager.getDistance(touchX,touchY,log);
-
-        if(baseDistance<testDistance){
-            return base.onTouch(touchX,touchY);
-        }else{
-            return this.touched(true);
-        }
-
-    }
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
@@ -170,8 +95,4 @@ public class BaseBlock extends Block {
     }
 
 
-    @Override
-    public boolean validate() {
-        return base.validate();
-    }
 }

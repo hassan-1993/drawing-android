@@ -1,16 +1,17 @@
-package me.math.com.math.drawing.experssionBlocks;
+package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.example.scanner.TokenID;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-import me.math.com.math.drawing.TouchManager;
-import me.math.com.math.drawing.cursorblock.Cursor;
-import me.math.com.math.drawing.Setting;
-import me.math.com.math.cas.expression.parser.scanner.TokenID;
+
+import ha.drawing.Setting;
+
 
 /**
  * Created by hassan on 12/26/2016.
@@ -32,7 +33,7 @@ public class BlockContainer extends Block {
     }
 
     public BlockContainer() {
-        super(TokenID.T_PARENT, "");
+        super(TokenID.PARENT, "");
     }
 
     @Override
@@ -98,19 +99,6 @@ public class BlockContainer extends Block {
         return equation;
     }
 
-    @Override
-    public Cursor onTouch(float touchX, float touchY) {
-        /*if root==true ,this is the root block check if touching it  before checking which child is touching
-        * */
-        touchX -= x;
-        touchY -= y;
-
-        Block chosen = TouchManager.getNearestBlock(touchX, touchY, this);
-
-        if (chosen != null) return chosen.onTouch(touchX, touchY);
-
-        return null;
-    }
 
 
     public List<Block> getChildren() {
@@ -196,7 +184,7 @@ public class BlockContainer extends Block {
                 for (int i = 1; i < children.size(); i++) {
                     Block child = children.get(i);
                     float baseline1 = children.get(i).getBaseLine();
-                    if(child.before() instanceof BracketBlock && child.getId()==TokenID.T_POWER) {
+                    if(child.before() instanceof BracketBlock && child.getId()==TokenID.POWER) {
                         /*in case of power and before it is a bracket
                         * the bracket is not build yet so we can not use it to calculate the baseline of power yet*/
                     }else{
@@ -216,7 +204,7 @@ public class BlockContainer extends Block {
         buildPowerBracketHeight(this,setting,textSize);
         shiftAboveZero();
         for (Block child : children) {
-            if (child.getId() == TokenID.T_LEFT_BRACKET || child.getId() == TokenID.T_RIGHT_BRACKET) {
+            if (child.getId() == TokenID.LEFT_BRACKET || child.getId() == TokenID.RIGHT_BRACKET) {
                 child.build(setting, paint, textSize);
             }
         }
@@ -233,12 +221,12 @@ public class BlockContainer extends Block {
             float shiftOperator = setting.block_Margin_Operator * setting.scaleTextSize(textSize);
             for (Block child : children) {
                 Block before = child.before();
-                if ((before != null && (before.getId() == TokenID.T_WORD || before.getId() == TokenID.T_PARENT))) {
+                if ((before != null && (before.getId() == TokenID.WORD || before.getId() == TokenID.PARENT))) {
                     /*this used only in description */
                     currentX += spaceShiftX;
-                } else if (child.getId() == TokenID.T_Operator || (before != null && before.getId() == TokenID.T_Operator)) {
+                } else if (child.getId() == TokenID.Operator || (before != null && before.getId() == TokenID.Operator)) {
                     currentX += shiftOperator;
-                } else if (child.getId() != TokenID.T_POWER) {
+                } else if (child.getId() != TokenID.POWER) {
                     currentX += shiftX;
                 }
                 child.x = currentX;
@@ -292,212 +280,6 @@ public class BlockContainer extends Block {
         }
         this.height = maxHeight;
     }
-    @Override
-    public Cursor touched(boolean left) {
-//        /**/
-//
-//        EmptyBlock emptyBlock=new EmptyBlock();
-//
-//        if(left){
-//         //  Block first=parent.getChildren();
-//            parent.addChild(index(),emptyBlock);
-//            return new Cursor(emptyBlock,true);
-//        }else{
-//            parent.addChild(index()+1,emptyBlock);
-//            return new Cursor(emptyBlock,true);
-//        }
-        return null;/*a parent block can never be touched*/
-    }
-
-    @Override
-    public Cursor moveLeft(boolean isLeft, Block caller) {
-        Block before = caller.before();
-
-        /*if before is a parent block we move through it */
-        if (before instanceof BlockContainer) {
-            BlockContainer parentBlock = ((BlockContainer) before);
-            return parentBlock.getChild(parentBlock.getChildCount() - 1).touched(false);
-        } else {
-            if (before == null) {
-                if (caller.parent != null && parent != null) {
-                    return parent.moveLeft(isLeft, caller.parent);
-                }
-                /*if null means this is the root block nothing we can do*/
-                return null;
-            } else {
-                return before.moveLeft(isLeft, caller);
-            }
-        }
-
-    }
-
-    @Override
-    public Cursor moveRight(boolean isLeft, Block caller) {
-        Block after = caller.next();
-
-        /*if after is a parent block we move through it */
-        if (after instanceof BlockContainer) {
-            BlockContainer parentBlock = ((BlockContainer) after);
-            return parentBlock.getChild(parentBlock.getChildCount() - 1).touched(false);
-        } else {
-            if (after == null) {
-                if (caller.parent != null && parent != null)
-                    return parent.moveRight(isLeft, caller.parent);
-
-                return null; /*this is the last block*/
-
-            } else {
-
-                return after.moveRight(isLeft, caller);
-            }
-        }
-
-    }
-
-    // FIXME: 1/21/2017 bracket should not be used for
-    // FIXME: 1/20/2017 if we press the power block twice and touched the middle block between the three error happen 
-    @Override
-    public Cursor delete(boolean isLeft, Block caller, boolean delete) {
-        /*PS:a parent block must always consist of one child at least or should be removed entirely with its parent*/
-
-        Block before = caller.before();
-
-        if (caller instanceof EmptyBlock) {
-            /*means definitely for delete */
-            /*try to delete whats before it if any*/
-            if (before != null) {
-                if (before.parent != null && before.parent.parent instanceof DerivativeBlock) {
-                    /*delete the derivative block and the left bracket after it*/
-                    Block nextNextParent = before.parent.parent.next().next();
-                    Block beforeParent = before.parent.parent.before();
-                    Block parentOfParent = before.parent.parent.parent;
-                    before.parent.parent.next().remove();
-                    before.parent.parent.remove();
-
-                    if (nextNextParent != null) {
-                        return nextNextParent.touched(true);
-                    } else if (beforeParent != null) {
-                        return beforeParent.touched(false);
-                    } else {
-                         /*add empty block*/
-                        EmptyBlock emptyBlock = new EmptyBlock();
-                        ((BlockContainer) parentOfParent).addChild(emptyBlock);
-                        return new Cursor(emptyBlock, true);
-                    }
-                }
-                Cursor cursorBlock = before.delete(true, caller, false);
-
-            /*check cursor returned if not the same as caller than delete also*/
-                if (cursorBlock != null) {
-                    if (cursorBlock.getTouchedBlock() == caller) {
-                        return cursorBlock;
-                    } else {
-                        /*if before it is a power block do not delete */
-                        if (before.getId() != TokenID.T_POWER) {
-                            removeChild(caller.index());
-                        }
-                        return cursorBlock;
-                    }
-                }
-            }
-        }
-
-        if(before!=null  && before.getId()==TokenID.T_BASE){
-            return before.moveLeft(false,before);
-        }
-
-        /*if true means we should remove the caller block*/
-        if (delete) {
-            int callerIndex = caller.index();
-            boolean removed = false;
-            Block next = caller.next();
-            /*if after this block is a power block we can not delete the caller,and delete should  act as a moveleft
-            * unless the caller to delete is a textblock than we should delete it and replace it with empty block*/
-            if (next != null && caller.getId() == TokenID.T_EMPTY && next instanceof PowerBlock) {
-                return moveLeft(isLeft, caller);
-            }
-
-            /*don't remove the caller if it is the only child and is an empty block*/
-            if (!(children.size() == 1 && caller instanceof EmptyBlock) && !(before instanceof DerivativeBlock) && caller.getId()!=TokenID.T_BASE) {
-                this.removeChild(callerIndex);
-                removed = true;
-            } else if (before instanceof DerivativeBlock) {
-//                /*if before is derivative block than delete should act as move left twice
-//                * */
-//                return before.moveLeft(true, before);
-                before=before.before();
-                //delete it all (bracket with derivative block before it)
-                this.removeChild(callerIndex);
-                this.removeChild(callerIndex-1);
-                callerIndex=callerIndex-1;
-                removed=true;
-            }else if(caller.getId()==TokenID.T_BASE){
-                caller.next().remove();
-                caller.remove();
-            }
-
-            if (before == null) {
-
-                if (parent == null && children.size() == 0) {
-                    /*if no children left and this is the root block so add empty block and return cursor*/
-                    EmptyBlock emptyBlock = new EmptyBlock();
-                    addChild(emptyBlock);
-                    return new Cursor(emptyBlock, true);
-                } else if (parent == null && removed) {
-                    return next.touched(true);
-                }
-                /*if no childrens left or caller is the only child and empty block*/
-                if (children.size() == 0 || (children.size() == 1 && caller instanceof EmptyBlock)) {
-                    if (caller instanceof EmptyBlock) {
-                        if (parent != null && parent.parent != null && parent.parent.getId() == TokenID.T_MATRIX) {
-                            //means it is a column of block let the matrix block handle that
-                            return parent.parent.delete(false, this, true);
-                        } else {
-                            if (parent == null) return null;
-                            /*delete this block (parent of caller)*/
-                            return parent.delete(false, this, true);
-                        }
-                    } else {
-                         /*add empty block*/
-                        EmptyBlock emptyBlock = new EmptyBlock();
-                        addChild(emptyBlock);
-                        return new Cursor(emptyBlock, true);
-                    }
-                } else {
-                    /*if it was the first child which we already delete and must be empty block,the delete will now act as move left */
-                    if (callerIndex == 0 && removed && caller.getId() == TokenID.T_EMPTY) {
-                        return getChild(callerIndex).moveLeft(true, getChild(callerIndex));
-                    }
-                    /*if not empty */
-                    Block after = children.get(callerIndex);
-                    return after.touched(true);
-                }
-            } else {
-                if (before.getId() == TokenID.T_FUNCTION) {
-                    /*if before block function block ,means current block we deleted is a left bracket so we delete them as well*/
-                    return delete(false, before, true);
-                }
-
-                return before.touched(false);
-
-
-            }
-        } else {
-            /*if caller left side means delete whats before if exist*/
-            if (isLeft) {
-                if (before == null) {
-                    /*if nothing before it than act as a move left*/
-                    return caller.moveLeft(isLeft, caller);
-                } else {
-                    /*if before block exist than call its delete and let it handle it*/
-                    return before.delete(isLeft, caller, false);/*the first parameter is what matters ,the last parameter delete isn't important unless calling function delete of parent block ,deletion can only happen in a parentblock*/
-                }
-            }
-            /*if nothing to delete ,delete acts as a move left*/
-            return caller.moveLeft(isLeft, caller);
-        }
-
-    }
 
     public Block getBlockHolder() {
         return blockHolder;
@@ -539,11 +321,11 @@ public class BlockContainer extends Block {
 
         for (int i = 0; i < blocks.getChildrens().size(); i++) {
             Block b = blocks.getChildrens().get(i);
-            if ((b.getId() == TokenID.T_LEFT_BRACKET)) {
+            if ((b.getId() == TokenID.LEFT_BRACKET)) {
                 stack.add(b);
             } else if (b instanceof BlockContainer) {
                 buildPowerBracketHeight((BlockContainer) b,setting,textSize);
-            } else if (b.getId() == TokenID.T_RIGHT_BRACKET) {
+            } else if (b.getId() == TokenID.RIGHT_BRACKET) {
                 //remove last bracket from stack if exists
                 if (stack.size() != 0) {
                     float minY = 999000, maxY = 0;
@@ -586,7 +368,7 @@ public class BlockContainer extends Block {
                     //calculate the  height of right bracket with respect to whats before it
                     for (int e = i - 1; e >= 0; e--) {
                         Block check = blocks.getChildrens().get(e);
-                        if (check.getId() == TokenID.T_LEFT_BRACKET || check.getId() == TokenID.T_RIGHT_BRACKET) {
+                        if (check.getId() == TokenID.LEFT_BRACKET || check.getId() == TokenID.RIGHT_BRACKET) {
                             continue;
                         }
                         maxY = maxY < check.y + check.height ? check.y + check.height : maxY;
@@ -601,7 +383,7 @@ public class BlockContainer extends Block {
                         * in case all are bracket or no block than y is 0*/
                         for (int e = i+1; e <blocks.getChildCount(); e++) {
                             Block check = blocks.getChildrens().get(e);
-                            if (check.getId() != TokenID.T_LEFT_BRACKET && check.getId() != TokenID.T_RIGHT_BRACKET && check.getId()!=TokenID.T_POWER) {
+                            if (check.getId() != TokenID.LEFT_BRACKET && check.getId() != TokenID.RIGHT_BRACKET && check.getId()!=TokenID.POWER) {
                                b.y=check.y+check.getBaseLine()-b.getBaseLine();
                                 break;
                             }else if(e==blocks.getChildCount()-1){
@@ -652,7 +434,7 @@ public class BlockContainer extends Block {
      * @return true if block is a right bracket and after it is a power block
      */
     private static boolean isPowerAfterBracket(Block block){
-        if(block.getId()==TokenID.T_RIGHT_BRACKET && block.next()!=null && block.next().getId()==TokenID.T_POWER)
+        if(block.getId()==TokenID.RIGHT_BRACKET && block.next()!=null && block.next().getId()==TokenID.POWER)
             return true;
         return false;
     }
@@ -666,9 +448,9 @@ public class BlockContainer extends Block {
         //continue looping until we find the same number of closed and open brackets or no brackers at all
         for (int i = position + 1; i < V.size(); i++) {
 
-            if (V.get(i).getId() == TokenID.T_LEFT_BRACKET) {
+            if (V.get(i).getId() == TokenID.LEFT_BRACKET) {
                 numberOfOpenedBrackets++;
-            } else if (V.get(i).getId() == TokenID.T_RIGHT_BRACKET) {
+            } else if (V.get(i).getId() == TokenID.RIGHT_BRACKET) {
                 numberOfClosedBrackets++;
             }
             V1.add(V.get(i));

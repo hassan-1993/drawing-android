@@ -1,4 +1,4 @@
-package me.math.com.math.drawing.experssionBlocks;
+package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,18 +6,17 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.example.scanner.TokenID;
+
 import java.io.Serializable;
 
-import me.math.com.math.cas.expression.Expression;
-import me.math.com.math.cas.expression.parser.ExpressionParser;
-import me.math.com.math.cas.expression.parser.scanner.TokenID;
-import me.math.com.math.drawing.Setting;
+import ha.drawing.Setting;
 
 
 /**
  * Created by hassan on 12/26/2016.
  */
-public abstract class Block implements IBlock,Serializable{
+public abstract class Block {
 
 
     public float x,y,width,height;
@@ -40,8 +39,7 @@ public abstract class Block implements IBlock,Serializable{
         this.text=text;
     }
 
-    /*override in textBlock and emptyBlock and any block that can drawer a cursor*/
-    protected void enableCursor(boolean enable){}
+
 
     public TokenID getId(){
         return tokenID;
@@ -51,8 +49,10 @@ public abstract class Block implements IBlock,Serializable{
 
     protected abstract void drawer(Canvas c, Paint paint, float offsetX, float offsetY);
     protected abstract void builder(Setting setting, Paint paint, float textSize);
+    public abstract String show();
+    public abstract float getBaseLine();
 
-    @Override
+
     public void draw(Canvas c, Paint paint, float offsetX, float offsetY){
         paint.setStrokeWidth(this.strokeWidth);
         int tempColor=paint.getColor();
