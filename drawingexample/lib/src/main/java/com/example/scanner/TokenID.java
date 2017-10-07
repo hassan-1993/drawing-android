@@ -24,4 +24,11 @@ public enum TokenID {
 	BRACKET,
 	LEFT_BRACKET,
 	RIGHT_BRACKET,
+	TEXT,
+	PARENT,
+	MAT_INVERSE ,WORD,EQUAL, Operator, FRACTION, DERIVE, EXPONENTIAL, MATRIX, EMPTY, BASE;
+
+	public boolean isFunction(){
+		return equals(FUNCTION) || equals(DERIVE) || equals(LOG);
+	}
 }

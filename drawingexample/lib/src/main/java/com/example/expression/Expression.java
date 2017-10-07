@@ -2,6 +2,7 @@ package com.example.expression;
 
 
 import com.example.scanner.Token;
+import com.example.scanner.TokenID;
 
 import java.util.ArrayList;
 
@@ -77,5 +78,27 @@ public class Expression {
 	
 	public Expression getParent(){
 		return parent;
+	}
+
+
+	public TokenID getId() {
+		return this.token.getTokenID();
+	}
+
+	public String getSequence() {
+		return this.token.getSequence();
+	}
+
+
+	public Expression getChild(int index){
+		return this.operandList.get(index);
+	}
+
+	public int getChildCount() {
+		return this.operandList.size();
+	}
+
+	public int getIndex() {
+		return this.operandList.indexOf(this);
 	}
 }

@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by hassan on 10/1/2017.
+ * Created by houssam on 10/1/2017.
  */
 
 public class DrawingView extends View{
