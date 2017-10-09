@@ -27,8 +27,8 @@ public class BaseBlock extends Block {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.BASE;
+    public BlockID getId() {
+        return BlockID.BASE;
     }
 
 

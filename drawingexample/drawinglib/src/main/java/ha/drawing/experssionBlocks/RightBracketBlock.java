@@ -12,7 +12,7 @@ public class RightBracketBlock extends BracketBlock {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.RIGHT_BRACKET;
+    public BlockID getId() {
+        return BlockID.RIGHT_BRACKET;
     }
 }

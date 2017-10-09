@@ -39,8 +39,8 @@ public class RadicalBlock extends Block {
 
 
     @Override
-    public TokenID getId() {
-        return TokenID.SQRT;
+    public BlockID getId() {
+        return BlockID.SQRT;
     }
 
     @Override

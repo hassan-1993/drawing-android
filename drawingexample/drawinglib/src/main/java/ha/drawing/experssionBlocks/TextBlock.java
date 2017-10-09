@@ -31,8 +31,8 @@ public class TextBlock extends Block {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.TEXT;
+    public BlockID getId() {
+        return BlockID.TEXT;
     }
 
 

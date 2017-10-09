@@ -25,8 +25,8 @@ public class OperatorBlock extends Block {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.Operator;
+    public BlockID getId() {
+        return BlockID.Operator;
     }
 
     @Override

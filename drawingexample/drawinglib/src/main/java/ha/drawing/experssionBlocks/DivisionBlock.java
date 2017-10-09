@@ -28,8 +28,8 @@ public class DivisionBlock extends Block {
 
 
     @Override
-    public TokenID getId() {
-        return TokenID.DIVISION;
+    public BlockID getId() {
+        return BlockID.DIVISION;
     }
 
     @Override

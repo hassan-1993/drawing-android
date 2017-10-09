@@ -36,8 +36,8 @@ public class MatrixBlock extends Block {
 
 
     @Override
-    public TokenID getId() {
-        return TokenID.MATRIX;
+    public BlockID getId() {
+        return BlockID.MATRIX;
     }
 
     @Override

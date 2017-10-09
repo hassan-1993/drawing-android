@@ -146,8 +146,8 @@ public class BlockContainer extends Block {
 
 
     @Override
-    public TokenID getId() {
-        return TokenID.PARENT;
+    public BlockID getId() {
+        return BlockID.PARENT;
     }
 
 
@@ -184,7 +184,7 @@ public class BlockContainer extends Block {
                 for (int i = 1; i < children.size(); i++) {
                     Block child = children.get(i);
                     float baseline1 = children.get(i).getBaseLine();
-                    if(child.before() instanceof BracketBlock && child.getId()==TokenID.POWER) {
+                    if(child.before() instanceof BracketBlock && child.getId()==BlockID.POWER) {
                         /*in case of power and before it is a bracket
                         * the bracket is not build yet so we can not use it to calculate the baseline of power yet*/
                     }else{
@@ -204,7 +204,7 @@ public class BlockContainer extends Block {
         buildPowerBracketHeight(this,setting,textSize);
         shiftAboveZero();
         for (Block child : children) {
-            if (child.getId() == TokenID.LEFT_BRACKET || child.getId() == TokenID.RIGHT_BRACKET) {
+            if (child.getId() == BlockID.LEFT_BRACKET || child.getId() == BlockID.RIGHT_BRACKET) {
                 child.build(setting, paint, textSize);
             }
         }
@@ -221,12 +221,12 @@ public class BlockContainer extends Block {
             float shiftOperator = setting.block_Margin_Operator * setting.scaleTextSize(textSize);
             for (Block child : children) {
                 Block before = child.before();
-                if ((before != null && (before.getId() == TokenID.WORD || before.getId() == TokenID.PARENT))) {
+                if ((before != null && (before.getId() == BlockID.WORD || before.getId() == BlockID.PARENT))) {
                     /*this used only in description */
                     currentX += spaceShiftX;
-                } else if (child.getId() == TokenID.Operator || (before != null && before.getId() == TokenID.Operator)) {
+                } else if (child.getId() == BlockID.Operator || (before != null && before.getId() == BlockID.Operator)) {
                     currentX += shiftOperator;
-                } else if (child.getId() != TokenID.POWER) {
+                } else if (child.getId() != BlockID.POWER) {
                     currentX += shiftX;
                 }
                 child.x = currentX;
@@ -321,11 +321,11 @@ public class BlockContainer extends Block {
 
         for (int i = 0; i < blocks.getChildrens().size(); i++) {
             Block b = blocks.getChildrens().get(i);
-            if ((b.getId() == TokenID.LEFT_BRACKET)) {
+            if ((b.getId() == BlockID.LEFT_BRACKET)) {
                 stack.add(b);
             } else if (b instanceof BlockContainer) {
                 buildPowerBracketHeight((BlockContainer) b,setting,textSize);
-            } else if (b.getId() == TokenID.RIGHT_BRACKET) {
+            } else if (b.getId() == BlockID.RIGHT_BRACKET) {
                 //remove last bracket from stack if exists
                 if (stack.size() != 0) {
                     float minY = 999000, maxY = 0;
@@ -368,7 +368,7 @@ public class BlockContainer extends Block {
                     //calculate the  height of right bracket with respect to whats before it
                     for (int e = i - 1; e >= 0; e--) {
                         Block check = blocks.getChildrens().get(e);
-                        if (check.getId() == TokenID.LEFT_BRACKET || check.getId() == TokenID.RIGHT_BRACKET) {
+                        if (check.getId() == BlockID.LEFT_BRACKET || check.getId() == BlockID.RIGHT_BRACKET) {
                             continue;
                         }
                         maxY = maxY < check.y + check.height ? check.y + check.height : maxY;
@@ -383,7 +383,7 @@ public class BlockContainer extends Block {
                         * in case all are bracket or no block than y is 0*/
                         for (int e = i+1; e <blocks.getChildCount(); e++) {
                             Block check = blocks.getChildrens().get(e);
-                            if (check.getId() != TokenID.LEFT_BRACKET && check.getId() != TokenID.RIGHT_BRACKET && check.getId()!=TokenID.POWER) {
+                            if (check.getId() != BlockID.LEFT_BRACKET && check.getId() != BlockID.RIGHT_BRACKET && check.getId()!=BlockID.POWER) {
                                b.y=check.y+check.getBaseLine()-b.getBaseLine();
                                 break;
                             }else if(e==blocks.getChildCount()-1){
@@ -434,7 +434,7 @@ public class BlockContainer extends Block {
      * @return true if block is a right bracket and after it is a power block
      */
     private static boolean isPowerAfterBracket(Block block){
-        if(block.getId()==TokenID.RIGHT_BRACKET && block.next()!=null && block.next().getId()==TokenID.POWER)
+        if(block.getId()==BlockID.RIGHT_BRACKET && block.next()!=null && block.next().getId()==BlockID.POWER)
             return true;
         return false;
     }
@@ -448,9 +448,9 @@ public class BlockContainer extends Block {
         //continue looping until we find the same number of closed and open brackets or no brackers at all
         for (int i = position + 1; i < V.size(); i++) {
 
-            if (V.get(i).getId() == TokenID.LEFT_BRACKET) {
+            if (V.get(i).getId() == BlockID.LEFT_BRACKET) {
                 numberOfOpenedBrackets++;
-            } else if (V.get(i).getId() == TokenID.RIGHT_BRACKET) {
+            } else if (V.get(i).getId() == BlockID.RIGHT_BRACKET) {
                 numberOfClosedBrackets++;
             }
             V1.add(V.get(i));

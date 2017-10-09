@@ -24,8 +24,8 @@ public class PowerBlock extends Block {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.POWER;
+    public BlockID getId() {
+        return BlockID.POWER;
     }
 
     @Override

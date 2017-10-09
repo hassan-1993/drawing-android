@@ -14,7 +14,7 @@ public class LeftBracketBlock extends BracketBlock {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.LEFT_BRACKET;
+    public BlockID getId() {
+        return BlockID.LEFT_BRACKET;
     }
 }

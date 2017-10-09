@@ -28,8 +28,8 @@ public class DerivativeBlock extends DivisionBlock {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.DERIVE;
+    public BlockID getId() {
+        return BlockID.DERIVE;
     }
 
     @Override

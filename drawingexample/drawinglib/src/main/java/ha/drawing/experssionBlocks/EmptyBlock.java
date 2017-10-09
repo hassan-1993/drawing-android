@@ -19,8 +19,8 @@ public class EmptyBlock extends Block {
     }
 
     @Override
-    public TokenID getId() {
-        return TokenID.EMPTY;
+    public BlockID getId() {
+        return BlockID.EMPTY;
     }
 
     @Override

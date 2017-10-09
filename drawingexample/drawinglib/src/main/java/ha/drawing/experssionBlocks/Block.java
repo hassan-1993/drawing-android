@@ -39,7 +39,7 @@ public abstract class Block {
 
 
 
-    public abstract TokenID getId();
+    public abstract BlockID getId();
 
 
 
