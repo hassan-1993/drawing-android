@@ -20,10 +20,15 @@ public class OperatorBlock extends Block {
 
 
     public OperatorBlock(String operator){
-        super(TokenID.Operator,operator);
+        super(operator);
 
     }
- 
+
+    @Override
+    public TokenID getId() {
+        return TokenID.Operator;
+    }
+
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
         float y=this.y+0.1f*textSize;//shift operator down a little bit

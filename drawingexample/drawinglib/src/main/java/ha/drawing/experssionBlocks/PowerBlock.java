@@ -18,9 +18,14 @@ public class PowerBlock extends Block {
     int powerHeightOffset=0;
 
     public PowerBlock() {
-        super(TokenID.POWER, "^");
-        powerBlock=new BlockContainer(TokenID.POWER,"");
+        super("^");
+        powerBlock=new BlockContainer("");
         powerBlock.setParent(this);
+    }
+
+    @Override
+    public TokenID getId() {
+        return TokenID.POWER;
     }
 
     @Override

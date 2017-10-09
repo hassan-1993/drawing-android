@@ -17,12 +17,8 @@ import ha.drawing.Setting;
 public abstract class BracketBlock extends Block {
 
 
-    public BracketBlock(String c, TokenID tokenID){
-        super(tokenID,c);
-        if(tokenID!=TokenID.LEFT_BRACKET && tokenID!=TokenID.RIGHT_BRACKET){
-            throw new IllegalArgumentException("must be left or right bracket only");
-        }
-
+    public BracketBlock(String c){
+        super(c);
     }
 
     @Override

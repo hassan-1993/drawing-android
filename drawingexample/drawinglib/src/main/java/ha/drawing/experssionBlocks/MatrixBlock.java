@@ -25,7 +25,7 @@ public class MatrixBlock extends Block {
 
 
     public MatrixBlock() {
-        super(TokenID.MATRIX, "");
+        super("");
         leftBracket = new LeftBracketBlock();
         rightBracket = new RightBracketBlock();
     }
@@ -34,6 +34,11 @@ public class MatrixBlock extends Block {
      which is wrong, we need to take in consideration the left and right bracket as well
      */
 
+
+    @Override
+    public TokenID getId() {
+        return TokenID.MATRIX;
+    }
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {

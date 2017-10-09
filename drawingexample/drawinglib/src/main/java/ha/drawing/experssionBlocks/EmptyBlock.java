@@ -15,7 +15,12 @@ import ha.drawing.Setting;
 public class EmptyBlock extends Block {
     float strokeWidth;
     public EmptyBlock() {
-        super(TokenID.EMPTY, "");
+        super("");
+    }
+
+    @Override
+    public TokenID getId() {
+        return TokenID.EMPTY;
     }
 
     @Override

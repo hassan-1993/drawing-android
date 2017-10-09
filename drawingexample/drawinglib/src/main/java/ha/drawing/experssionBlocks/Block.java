@@ -20,7 +20,6 @@ public abstract class Block {
 
 
     public float x,y,width,height;
-    public TokenID tokenID;
     protected String text;
     private Integer color=null;
     protected float lineHeight=10;
@@ -34,16 +33,13 @@ public abstract class Block {
 
     public Block parent;
 
-    protected Block(TokenID tokenID,String text){
-        this.tokenID=tokenID;
+    protected Block(String text){
         this.text=text;
     }
 
 
 
-    public TokenID getId(){
-        return tokenID;
-    }
+    public abstract TokenID getId();
 
 
 

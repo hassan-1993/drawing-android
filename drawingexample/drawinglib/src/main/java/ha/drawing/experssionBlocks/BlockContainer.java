@@ -28,12 +28,12 @@ public class BlockContainer extends Block {
 
     protected List<Block> children = new ArrayList<>();
 
-    public BlockContainer(TokenID tokenID, String text) {
-        super(tokenID, text);
+    public BlockContainer(String text) {
+        super(text);
     }
 
     public BlockContainer() {
-        super(TokenID.PARENT, "");
+        super("");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class BlockContainer extends Block {
 
     @Override
     public TokenID getId() {
-        return super.getId();
+        return TokenID.PARENT;
     }
 
 

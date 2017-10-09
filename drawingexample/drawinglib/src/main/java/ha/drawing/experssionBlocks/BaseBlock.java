@@ -20,12 +20,16 @@ public class BaseBlock extends Block {
    // private RectF logRect;
 
     public BaseBlock(String log) {
-        super(TokenID.BASE,"");
+        super("");
         this.log=new TextBlock(log);
         this.base=new BlockContainer();
         this.base.setParent(this);
     }
 
+    @Override
+    public TokenID getId() {
+        return TokenID.BASE;
+    }
 
 
     @Override

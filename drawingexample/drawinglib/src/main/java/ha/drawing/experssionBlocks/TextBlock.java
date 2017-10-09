@@ -26,13 +26,13 @@ public class TextBlock extends Block {
     //RectF textBlockRect;
 
     public TextBlock(String text){
-        super(TokenID.TEXT,text);
+        super(text);
         this.text=text;
     }
 
-    public TextBlock(TokenID tokenID,String text){
-        super(tokenID,text);
-        this.text=text;
+    @Override
+    public TokenID getId() {
+        return TokenID.TEXT;
     }
 
 

@@ -22,7 +22,7 @@ public class RadicalBlock extends Block {
 
 
     public RadicalBlock() {
-        super(TokenID.SQRT, "");
+        super("");
         insideRadical = new BlockContainer();
         insideRadical.setParent(this);
 
@@ -38,6 +38,10 @@ public class RadicalBlock extends Block {
     }
 
 
+    @Override
+    public TokenID getId() {
+        return TokenID.SQRT;
+    }
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {

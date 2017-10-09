@@ -12,7 +12,6 @@ public class DerivativeBlock extends DivisionBlock {
 
 
     public DerivativeBlock(char variable) {
-        super(TokenID.DERIVE);
         this.variable=variable;
         this.numerators.addChild(new TextBlock("d"));
 
@@ -28,8 +27,10 @@ public class DerivativeBlock extends DivisionBlock {
 
     }
 
-
-
+    @Override
+    public TokenID getId() {
+        return TokenID.DERIVE;
+    }
 
     @Override
     public String show() {

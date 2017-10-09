@@ -8,6 +8,11 @@ import com.example.scanner.TokenID;
 
 public class RightBracketBlock extends BracketBlock {
     public RightBracketBlock() {
-        super(")", TokenID.RIGHT_BRACKET);
+        super(")");
+    }
+
+    @Override
+    public TokenID getId() {
+        return TokenID.RIGHT_BRACKET;
     }
 }

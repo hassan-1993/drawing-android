@@ -19,11 +19,7 @@ public class DivisionBlock extends Block {
     public float divX,divY,strokeHeight;
 
     public DivisionBlock(){
-        this(TokenID.DIVISION);
-    }
-
-    protected DivisionBlock(TokenID tokenID){
-        super(tokenID,"");
+        super("");
         this.numerators=new BlockContainer();
         this.denominators=new BlockContainer();
         this.numerators.setParent(this);
@@ -31,6 +27,10 @@ public class DivisionBlock extends Block {
     }
 
 
+    @Override
+    public TokenID getId() {
+        return TokenID.DIVISION;
+    }
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {

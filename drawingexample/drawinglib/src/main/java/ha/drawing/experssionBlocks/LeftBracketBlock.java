@@ -10,6 +10,11 @@ import com.example.scanner.TokenID;
 
 public class LeftBracketBlock extends BracketBlock {
     public LeftBracketBlock() {
-        super("(", TokenID.LEFT_BRACKET);
+        super("(");
+    }
+
+    @Override
+    public TokenID getId() {
+        return TokenID.LEFT_BRACKET;
     }
 }
