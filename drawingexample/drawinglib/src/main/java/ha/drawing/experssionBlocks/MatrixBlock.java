@@ -26,8 +26,8 @@ public class MatrixBlock extends Block {
 
     public MatrixBlock() {
         super(TokenID.MATRIX, "");
-        leftBracket = new BracketBlock("(", TokenID.LEFT_BRACKET);
-        rightBracket = new BracketBlock(")", TokenID.RIGHT_BRACKET);
+        leftBracket = new LeftBracketBlock();
+        rightBracket = new RightBracketBlock();
     }
 
     /*FIXME: 1/20/2017 :if we add division inside a matrix block of one row and touched near the division block ,an empty block is added automatically to left or right of matrix

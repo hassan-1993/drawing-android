@@ -12,6 +12,7 @@ import ha.drawing.experssionBlocks.BlockContainer;
 import ha.drawing.experssionBlocks.BracketBlock;
 import ha.drawing.experssionBlocks.DivisionBlock;
 import ha.drawing.experssionBlocks.EmptyBlock;
+import ha.drawing.experssionBlocks.LeftBracketBlock;
 import ha.drawing.experssionBlocks.MatrixBlock;
 import ha.drawing.experssionBlocks.PowerBlock;
 import ha.drawing.experssionBlocks.RadicalBlock;
@@ -89,7 +90,7 @@ public class BlockFactory {
 
 
     public static Block leftBracket() {
-        return new BracketBlock("(", TokenID.LEFT_BRACKET);
+        return new LeftBracketBlock();
     }
 
     public static Block addEmptyPowerBlock(){

@@ -14,7 +14,7 @@ import ha.drawing.Setting;
 /**
  * Created by hassan on 1/3/2017.
  */
-public class BracketBlock extends Block {
+public abstract class BracketBlock extends Block {
 
 
     public BracketBlock(String c, TokenID tokenID){
