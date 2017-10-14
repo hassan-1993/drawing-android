@@ -13,29 +13,26 @@ import ha.drawing.Setting;
  */
 public abstract class Block {
 
+    public float x;
+    public float y;
+    public float width;
+    public float height;
 
-    public float x,y,width,height;
-    private Integer color=null;
-    protected float lineHeight=10;
+    private Integer color = null;
+    protected float lineHeight = 10;
     private int strokeWidth;
-    private boolean bold=false;
 
+    boolean destroyed = false;
 
-
-    boolean destroyed=false;
-    boolean rebuild=true; /*if rebuild=false means block is builded no need to build it again*/
+    // if rebuild=false means block is built no need to build it again
+    boolean rebuild = true;
 
     public Block parent;
 
     protected Block(){
     }
 
-
-
     public abstract BlockID getId();
-
-
-
     protected abstract void onDraw(Canvas c, Paint paint, float offsetX, float offsetY);
     protected abstract void measure(Setting setting, Paint paint, float textSize);
     public abstract String show();
@@ -71,31 +68,6 @@ public abstract class Block {
         layout(setting, paint, textSize, x, y);
     }
 
-    public float getAbsoluteX(){
-        float x=0;
-        Block b=parent;
-        while (b!=null){
-            x+=b.x;
-            b=b.parent;
-        }
-
-        return x+this.x;
-    }
-
-    public float getAbsoluteY(){
-        float y=0;
-        Block b=parent;
-        while (b!=null){
-            y+=b.y;
-            b=b.parent;
-        }
-
-        return y+this.y;
-    }
-
-
-
-
     public int index(){
         return this.parent==null?-1:getParent().getChildren().indexOf(this);
     }
@@ -110,40 +82,12 @@ public abstract class Block {
         return parent!=null&&index()-1>=0?getParent().getChild(index()-1):null;
     }
 
-
-
-
-    public   boolean validate(){
+    public boolean validate(){
        return true;
     }
 
-
-
-    public void remove(){
-            getParent().removeChild(index());
-    }
-
-
-
-
-
-
     protected void setParent(Block parent){
         this.parent=parent;
-    }
-
-
-
-
-
-
-
-    protected static float leftSide(RectF rectF){
-        return rectF.width()/2+rectF.left;
-    }
-
-    public boolean isDestroyed() {
-        return destroyed;
     }
 
     public void setDestroyed(boolean destroyed) {
@@ -158,20 +102,7 @@ public abstract class Block {
         return this.rebuild;
     }
 
-
-
-
     public void setColor(Integer color){
         this.color=color;
-    }
-
-
-    public void resetColor(){
-        this.color=null;
-    }
-
-
-    public int getStrokeWidth(){
-        return this.strokeWidth;
     }
 }

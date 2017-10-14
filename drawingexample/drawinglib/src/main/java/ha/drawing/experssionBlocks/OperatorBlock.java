@@ -14,10 +14,6 @@ import ha.drawing.Setting;
  */
 public class OperatorBlock extends TextBlock {
 
-
-   // private RectF operatorBlockRect;
-
-
     public OperatorBlock(String operator){
         super(operator);
 
@@ -42,28 +38,11 @@ public class OperatorBlock extends TextBlock {
             case "=":
                 c.drawLine(x+offsetX+width*0.05f,offsetY+y+height/2-width*0.27f,x+offsetX+width*0.95f,offsetY+y+height/2-width*0.27f,paint);
                 c.drawLine(x+offsetX+width*0.05f,offsetY+y+height/2+width*0.27f,x+offsetX+width*0.95f,offsetY+y+height/2+width*0.27f,paint);
-
-
-
         }
-
-
-
     }
-
-
-
-
 
     @Override
     public String show() {
         return text.equals("×")?"*":text;
     }
-
-
-
-
-
-
-
 }

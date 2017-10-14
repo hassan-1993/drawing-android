@@ -18,16 +18,20 @@ import ha.drawing.Setting;
  */
 public class BlockContainer extends Block {
 
-    /*any Block which is not instance of parentBlock and extend Block its parent must be a parentBlock */
-
+    /**
+     * Any Block which is not instance of the parentBlock and extends Block then its
+     * parent must be a parentBlock
+     */
 
     private Block blockHolder;
     public boolean root = false;
-    /*the rectF of parentblock are always set from outside the block ,only in case its parent null which means the root block set from inside
-    * all other blocks like textBlock and operatorBlock are set from inside*/
 
+    /**
+     * The rectF of parentblock are always set from outside the block, only in case its
+     * parent null which means the root block set from inside all other blocks like textBlock
+     * and operatorBlock are set from inside
+     */
     protected List<Block> children = new ArrayList<>();
-
 
     public BlockContainer() {
 
@@ -35,25 +39,19 @@ public class BlockContainer extends Block {
 
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
-
         for (Block block : children) {
             paint.setStyle(Paint.Style.FILL);
             block.draw(c, paint, offsetX + x, offsetY + y);
         }
-
-
     }
-
 
     @Override
     public float getBaseLine() {
-
         return getChild(0).y + getChild(0).getBaseLine();
     }
 
     @Override
     public String show() {
-
         String equation = "";
         if (children.size() == 0) {
             return "";
@@ -74,12 +72,17 @@ public class BlockContainer extends Block {
         return equation;
     }
 
-    /*handle getting equation for base ,derivative since*/
+    /**
+     * handle getting equation for base, derivative since
+     *
+     */
     private String getSpecialEquation(Block a, List<Block> list) {
         String equation = "";
-         /*if base block the output should be something like log(22,12) since in drawing it is log(22) 12 or if same goes in case of derivative*/
+        // if base block the output should be something like log(22,12) since in
+        // drawing it is log(22) 12 or if same goes in case of derivative
         equation += a.show();
-//log(x,(x+log(x,(x+y)))        )
+
+        //log(x,(x+log(x,(x+y))))
         List<Block> v = list;
         for (int j = 0; j < v.size(); j++) {
             if (v.get(j) instanceof BaseBlock || v.get(j) instanceof DerivativeBlock) {
@@ -91,24 +94,18 @@ public class BlockContainer extends Block {
             }
         }
         equation += ")";
-
-
         return equation;
     }
-
-
 
     public List<Block> getChildren() {
         return children;
     }
-
 
     public int size() {
         return children.size();
     }
 
     public Block getChild(int i) {
-
         return children.get(i);
     }
 
@@ -141,18 +138,14 @@ public class BlockContainer extends Block {
         return children;
     }
 
-
     @Override
     public BlockID getId() {
         return BlockID.PARENT;
     }
 
-
-
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
-
-        {
+    {
             /**********building the width and height of all childrens************************/
             this.rebuild = true;
             for (Block child : children) {
@@ -278,25 +271,11 @@ public class BlockContainer extends Block {
         this.height = maxHeight;
     }
 
-    public Block getBlockHolder() {
-        return blockHolder;
-    }
-
-    public void setBlockHolder(Block blockHolder) {
-        this.blockHolder = blockHolder;
-    }
-
-    public Block getLastChild() {
-        return children.get(children.size() - 1);
-    }
-
-
     public void removeChild(int index) {
         children.get(index).setDestroyed(true);
         this.rebuild = true;
         children.get(index).parent = null;
         children.remove(index);
-
     }
 
     public void removeLastChild() {
@@ -311,9 +290,8 @@ public class BlockContainer extends Block {
      */
     protected static void buildPowerBracketHeight(BlockContainer blocks, Setting setting, float textSize) {
 
-
-        //how it works ,once left bracket is found push it to stack ,and continue
-        //while continuing ,check the next ,if left bracket addNewEquation to stack ,else if right bracket ,remove left bracket from stack and calculate the height and y position according to whats between them
+        // How it works? once left bracket is found push it to stack ,and continue
+        // while continuing ,check the next ,if left bracket addNewEquation to stack ,else if right bracket ,remove left bracket from stack and calculate the height and y position according to whats between them
         ArrayList<Block> stack = new ArrayList<>();
 
         for (int i = 0; i < blocks.getChildrens().size(); i++) {
@@ -420,9 +398,6 @@ public class BlockContainer extends Block {
                 b.y = minY;
             }
         }
-
-
-
     }
 
     /**

@@ -16,13 +16,11 @@ import ha.drawing.Setting;
  * Created by hassan on 12/26/2016.
  */
 public class MatrixBlock extends Block {
-    List<BlockContainer> rows = new ArrayList<>();
+    private List<BlockContainer> rows = new ArrayList<>();
     boolean centerColumn = true;
-    BracketBlock leftBracket, rightBracket;
-
+    private BracketBlock leftBracket;
+    private BracketBlock rightBracket;
     private boolean disableBracket = false;
-
-
 
     public MatrixBlock() {
         leftBracket = new LeftBracketBlock();
@@ -32,7 +30,6 @@ public class MatrixBlock extends Block {
     /*FIXME: 1/20/2017 :if we add division inside a matrix block of one row and touched near the division block ,an empty block is added automatically to left or right of matrix
      which is wrong, we need to take in consideration the left and right bracket as well
      */
-
 
     @Override
     public BlockID getId() {
@@ -59,7 +56,6 @@ public class MatrixBlock extends Block {
         c.drawRect(x + offsetX, y + offsetY, x + offsetX, y + offsetY, border);
     }
 
-
     @Override
     public float getBaseLine() {
         return (height) / 2;
@@ -80,7 +76,6 @@ public class MatrixBlock extends Block {
         return equation;
     }
 
-
     public List<BlockContainer> getRows() {
         return rows;
     }
@@ -95,7 +90,6 @@ public class MatrixBlock extends Block {
         }
         this.rows.add(row);
     }
-
 
     public void addRow(BlockContainer row) {
         this.rows.add(row);
@@ -116,7 +110,6 @@ public class MatrixBlock extends Block {
     public void addCol(int rowIndex) {
         this.rows.get(rowIndex).addChild(new BlockContainer());
     }
-
 
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
@@ -180,10 +173,7 @@ public class MatrixBlock extends Block {
         this.centerColumn = centerColumn;
     }
 
-
     private void buildVerticalDimensiopn(Setting setting, Paint paint, float textSize) {
-
-
         //adding margin top and bottom
         float Matrix_TopBottom_margin = setting.TopBottomOffsetY;
 
@@ -229,7 +219,6 @@ public class MatrixBlock extends Block {
             }
         }
     }
-
 
     private void buildHoriznetalDimensiopn(Setting setting, Paint paint, float textSize) {
 

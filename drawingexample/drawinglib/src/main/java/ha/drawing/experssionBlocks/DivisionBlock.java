@@ -14,9 +14,12 @@ import ha.drawing.Setting;
  */
 public class DivisionBlock extends Block {
 
-    public BlockContainer numerators,denominators;
+    public BlockContainer numerators;
+    public BlockContainer denominators;
 
-    public float divX,divY,strokeHeight;
+    public float divX;
+    public float divY;
+    public float strokeHeight;
 
     public DivisionBlock(){
         this.numerators=new BlockContainer();
@@ -24,7 +27,6 @@ public class DivisionBlock extends Block {
         this.numerators.setParent(this);
         this.denominators.setParent(this);
     }
-
 
     @Override
     public BlockID getId() {
@@ -38,7 +40,6 @@ public class DivisionBlock extends Block {
 
         //paint.setStrokeWidth(strokeHeight);
         c.drawRect(divX+offsetX+x,divY+offsetY+y,divX+width+offsetX+x,divY+strokeHeight+offsetY+y,paint);
-
     }
 
     @Override
@@ -51,7 +52,6 @@ public class DivisionBlock extends Block {
         return "(("+ numerators.show() + ')' +'/'+ '('+ denominators.show() + "))";
     }
 
-
     public BlockContainer getNumerators(){
         return numerators;
     }
@@ -59,8 +59,6 @@ public class DivisionBlock extends Block {
     public BlockContainer getDenominators(){
         return denominators;
     }
-
-
 
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
@@ -94,13 +92,5 @@ public class DivisionBlock extends Block {
             denominators.x = this.width / 2 - denominators.width / 2;
             /***********************************************************************/
         }
-
-
-
     }
-
-
-
-
-
 }

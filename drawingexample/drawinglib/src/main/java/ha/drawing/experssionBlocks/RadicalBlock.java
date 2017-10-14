@@ -16,10 +16,9 @@ import ha.drawing.Setting;
  */
 public class RadicalBlock extends Block {
 
-    BlockContainer insideRadical;
+    private BlockContainer insideRadical;
     public PointF a, b, c, d;
-    float offsetFromBelow = 0;
-
+    private float offsetFromBelow = 0;
 
     public RadicalBlock() {
         insideRadical = new BlockContainer();
@@ -31,11 +30,9 @@ public class RadicalBlock extends Block {
         d = new PointF();
     }
 
-
     public BlockContainer getInsideRadical() {
         return insideRadical;
     }
-
 
     @Override
     public BlockID getId() {
@@ -54,9 +51,7 @@ public class RadicalBlock extends Block {
         c.drawLine(offsetX + this.c.x + x, offsetY + this.c.y + y, offsetX + d.x + x, offsetY + d.y + y, paint);
 
         insideRadical.draw(c, paint, x + offsetX, y + offsetY);
-
     }
-
 
     // FIXME: 1/22/2017 the base line of radical is wrong should be with respect to its children
     @Override
@@ -64,12 +59,10 @@ public class RadicalBlock extends Block {
         return this.insideRadical.getChild(0).getBaseLine() + this.insideRadical.getChild(0).y + this.insideRadical.y;
     }
 
-
     @Override
     public String show() {
         return "(√(" + this.insideRadical.show() + "))";
     }
-
 
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
@@ -86,9 +79,7 @@ public class RadicalBlock extends Block {
         setWidth(insideRadical.width + setting.ExtraRadicalWidth * scaling + setting.ExtraPadding_RadicalLeft * scaling);
         float shiftX = setting.ExtraPadding_RadicalLeft * scaling;
         insideRadical.x = a.x + shiftX;
-
     }
-
 
     private void setHeight(float height, float maxHeight) {
         a.y = 0;
@@ -99,7 +90,6 @@ public class RadicalBlock extends Block {
         d.y = c.y;
 
         this.height = height;
-
     }
 
     //always setHeight must be called before
@@ -116,11 +106,5 @@ public class RadicalBlock extends Block {
         c.x -= d.x;
         this.width = width - d.x;
         d.x -= d.x;
-
-
     }
-
-
-
-
 }

@@ -14,8 +14,8 @@ import ha.drawing.Setting;
  */
 public class PowerBlock extends Block {
 
-    BlockContainer powerBlock;
-    int powerHeightOffset=0;
+    private BlockContainer powerBlock;
+    private int powerHeightOffset=0;
 
     public PowerBlock() {
         powerBlock=new BlockContainer();
@@ -30,23 +30,13 @@ public class PowerBlock extends Block {
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         powerBlock.draw(c,paint,x+offsetX,y+offsetY);
-
         Paint border=new Paint();
         border.setStrokeWidth(4);
         border.setStyle(Paint.Style.STROKE);
         border.setColor(Color.MAGENTA);
-
-      //  c.drawRect(x,y,x+width,y+height,border);
-
         border.setColor(Color.GRAY);
-       // c.drawRect(rectF.left+x+offsetX,rectF.top+y+offsetY,rectF.right+x+offsetX,rectF.bottom+y+offsetY,border);
-
         border.setColor(Color.BLACK);
-
-
-    //  c.drawRect(bottomRightRect.left+x+offsetX,bottomRightRect.top+y+offsetY,bottomRightRect.right+x+offsetX,bottomRightRect.bottom+y+offsetY,border);
     }
-
 
     @Override
     public float getBaseLine() {
@@ -60,8 +50,6 @@ public class PowerBlock extends Block {
         return "^"+ "(" + powerBlock.show() + ")";
     }
 
-
-
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
         float scale = textSize / setting.DefaultTextSize;
@@ -71,14 +59,10 @@ public class PowerBlock extends Block {
         powerHeightOffset= (int) (setting.PowerHeight * scale);
         this.height=powerBlock.height+powerHeightOffset+before().height;
         this.width=powerBlock.width+powerBlock.x;
-
-
     }
 
     public BlockContainer getPower(){
         return powerBlock;
     }
-
-
 }
 

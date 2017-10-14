@@ -16,15 +16,12 @@ import ha.drawing.Setting;
  */
 public abstract class BracketBlock extends TextBlock {
 
-
     public BracketBlock(String c){
         super(c);
     }
 
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
-
-
         switch (text.charAt(0)) {
             case ')':
             {
@@ -58,25 +55,7 @@ public abstract class BracketBlock extends TextBlock {
 
 
         }
-
-//        Paint border=new Paint();
-//        border.setStrokeWidth(4);
-//        border.setStyle(Paint.Style.STROKE);
-//        border.setColor(Color.BLUE);
-//
-////        c.drawRect(rectF.left+x+offsetX,rectF.top+y+offsetY,rectF.right+x+offsetX,rectF.bottom+y+offsetY,border);
-//
-//        border.setColor(Color.LTGRAY);
-//
-//        c.drawRect(x+offsetX,y+offsetY,x+offsetX,y+offsetY,border);
-
     }
-
-
-
-
-
-
 
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
@@ -90,12 +69,5 @@ public abstract class BracketBlock extends TextBlock {
         if (this.width > setting.max_Bracket_Width) {
             this.width = setting.max_Bracket_Width;
         }
-
-
-
-
-
     }
-
-
 }
