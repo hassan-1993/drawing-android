@@ -2,9 +2,13 @@ package ha.drawing;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import ha.drawing.experssionBlocks.Block;
+import ha.drawing.experssionBlocks.BlockContainer;
 
 /**
  * Created by houssam on 10/1/2017.
@@ -13,6 +17,7 @@ import android.view.View;
 public class DrawingView extends View{
 
     int width=500,height=500;
+    BlockContainer block;
 
     public DrawingView(Context context) {
         super(context);
@@ -20,12 +25,16 @@ public class DrawingView extends View{
 
     public DrawingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+
+        block = new BlockHelper().buildBlocks("2+3");
     }
 
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
+        block.draw(canvas, new Paint(), 0, 0);
     }
 
 
