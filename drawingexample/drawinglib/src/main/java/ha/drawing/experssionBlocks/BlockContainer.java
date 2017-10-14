@@ -37,7 +37,7 @@ public class BlockContainer extends Block {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
 
         for (Block block : children) {
             paint.setStyle(Paint.Style.FILL);
@@ -153,7 +153,7 @@ public class BlockContainer extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
 
         {
             /**********building the width and height of all childrens************************/

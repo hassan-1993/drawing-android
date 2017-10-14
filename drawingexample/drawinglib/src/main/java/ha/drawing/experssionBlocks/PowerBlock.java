@@ -29,7 +29,7 @@ public class PowerBlock extends Block {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         powerBlock.draw(c,paint,x+offsetX,y+offsetY);
 
         Paint border=new Paint();
@@ -64,7 +64,7 @@ public class PowerBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
         float scale = textSize / setting.DefaultTextSize;
         float newtextsize = setting.PowerScaleProportion * textSize;
         powerBlock.build(setting,paint,newtextsize);

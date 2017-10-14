@@ -33,7 +33,7 @@ public class DivisionBlock extends Block {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         numerators.draw(c,paint,offsetX+x,offsetY+y);
         denominators.draw(c,paint,offsetX+x,offsetY+y);
 
@@ -64,7 +64,7 @@ public class DivisionBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
 
         float scale=textSize / setting.DefaultTextSize;
         lineHeight=scale*setting.TEXT_SPACING;

@@ -1,14 +1,9 @@
 package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-
-import com.example.scanner.TokenID;
-
-import java.io.Serializable;
 
 import ha.drawing.Setting;
 
@@ -43,11 +38,23 @@ public abstract class Block {
 
 
 
-    protected abstract void drawer(Canvas c, Paint paint, float offsetX, float offsetY);
-    protected abstract void builder(Setting setting, Paint paint, float textSize);
+    protected abstract void onDraw(Canvas c, Paint paint, float offsetX, float offsetY);
+    protected abstract void measure(Setting setting, Paint paint, float textSize);
     public abstract String show();
     public abstract float getBaseLine();
 
+    /**
+     * Derived classes with children should override
+     * this method and call layout on each of
+     * their children.
+     *
+     * @param x Left position, relative to parent
+     * @param y Top position, relative to parent
+     */
+    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public void draw(Canvas c, Paint paint, float offsetX, float offsetY){
         paint.setStrokeWidth(this.strokeWidth);
@@ -55,16 +62,16 @@ public abstract class Block {
         if(color!=null){
             paint.setColor(color);
         }
-        drawer(c,paint,offsetX,offsetY);
+        onDraw(c,paint,offsetX,offsetY);
         paint.setStyle(Paint.Style.FILL);/*set back paint to fill in case changed*/
         paint.setColor(tempColor);
     }
 
     public void build(Setting setting, Paint paint, float textSize){
         this.strokeWidth= (int) (setting.Defualtstroke*textSize/setting.DefaultTextSize);
-        builder(setting,paint,textSize);
+        measure(setting,paint,textSize);
+        layout(setting, paint, textSize, x, y);
     }
-
 
     public float getAbsoluteX(){
         float x=0;

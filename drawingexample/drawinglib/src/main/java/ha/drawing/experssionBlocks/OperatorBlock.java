@@ -29,7 +29,7 @@ public class OperatorBlock extends TextBlock {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         float y=this.y+0.1f*textSize;//shift operator down a little bit
         switch (text){
             case "+":  c.drawLine(x+offsetX+width*0.1f,offsetY+y+height/2,x+offsetX+width*0.9f,offsetY+y+height/2,paint);

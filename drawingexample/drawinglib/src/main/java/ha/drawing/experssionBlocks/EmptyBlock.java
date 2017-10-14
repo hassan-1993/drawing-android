@@ -24,7 +24,7 @@ public class EmptyBlock extends Block {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         paint.setStyle(Paint.Style.STROKE);
         c.drawRect(offsetX+x,offsetY+y,offsetX+x+width,offsetY+y+height,paint);
 
@@ -43,7 +43,7 @@ public class EmptyBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
         float scale=textSize/setting.DefaultTextSize;
         this.width=setting.TEXT_SPACING*2*scale+setting.Rect_Min_Width*scale;
         this.height=setting.Rect_Height*scale;

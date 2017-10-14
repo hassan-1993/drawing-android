@@ -44,7 +44,7 @@ public class RadicalBlock extends Block {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         //√
         paint.setStyle(Paint.Style.FILL);
         //paint.setStrokeWidth(strokeWidth);
@@ -73,7 +73,7 @@ public class RadicalBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
         float scaling = textSize / setting.DefaultTextSize;
 
         insideRadical.build(setting, paint, textSize);

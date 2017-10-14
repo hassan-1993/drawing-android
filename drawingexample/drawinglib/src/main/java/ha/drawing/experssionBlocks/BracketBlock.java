@@ -22,7 +22,7 @@ public abstract class BracketBlock extends Block {
     }
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
 
 
         switch (text.charAt(0)) {
@@ -87,7 +87,7 @@ public abstract class BracketBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
         float scale=textSize/setting.DefaultTextSize;
         /*PS:if zero means not set already */
         if(this.height==0)

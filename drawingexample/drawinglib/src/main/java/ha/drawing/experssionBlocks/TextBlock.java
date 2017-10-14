@@ -34,11 +34,10 @@ public class TextBlock extends Block {
 
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         paint.setTextSize(textSize);
         //drawY=y+height;
         c.drawText(text,x+offsetX-left,y+offsetY+proportion,paint);
-
 
 
     }
@@ -60,8 +59,8 @@ public class TextBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
-        this.textSize =textSize;
+    protected void measure(Setting setting, Paint paint, float textSize) {
+        this.textSize=textSize;
         Rect bound=getBound(paint,textSize,text);
         this.height=setting.Rect_Height* this.textSize / setting.DefaultTextSize;
         this.left=bound.left;

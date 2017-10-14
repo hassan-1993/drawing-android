@@ -42,7 +42,7 @@ public class BaseBlock extends Block {
 
 
     @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, Paint paint, float textSize) {
 
         this.log.build(setting,paint,textSize);
         textSize=textSize*setting.BaseScaleProportion;
@@ -62,7 +62,7 @@ public class BaseBlock extends Block {
 
 
     @Override
-    public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         log.draw(c,paint,offsetX+x,offsetY+y);
         base.draw(c,paint,offsetX+x,offsetY+y);
 
