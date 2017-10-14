@@ -12,10 +12,9 @@ import ha.drawing.Setting;
 /**
  * Created by hassan on 12/26/2016.
  */
-public class OperatorBlock extends Block {
+public class OperatorBlock extends TextBlock {
 
 
-    public float textSize;
    // private RectF operatorBlockRect;
 
 
@@ -54,10 +53,7 @@ public class OperatorBlock extends Block {
 
 
 
-    @Override
-    public float getBaseLine() {
-        return height*0.5f;
-    }
+
 
     @Override
     public String show() {
@@ -67,16 +63,7 @@ public class OperatorBlock extends Block {
 
 
 
-    @Override
-    protected void builder(Setting setting, Paint paint, float textSize) {
-        /*use the same string for calculating of dimension so all have same width*/
 
-
-        float scale=textSize/setting.DefaultTextSize;
-        this.height=setting.Rect_Height*scale;
-        this.width=getBound2(setting,textSize,"*");
-        this.textSize=textSize;
-    }
 
 
 }

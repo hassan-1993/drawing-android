@@ -4,8 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.example.scanner.TokenID;
-
 import ha.drawing.Setting;
 
 
@@ -14,9 +12,8 @@ import ha.drawing.Setting;
  */
 public class TextBlock extends Block {
 
-    private String text;
 
-    public float textsize;
+    protected float textSize;
 
 
     private float proportion;
@@ -38,7 +35,7 @@ public class TextBlock extends Block {
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
-        paint.setTextSize(textsize);
+        paint.setTextSize(textSize);
         //drawY=y+height;
         c.drawText(text,x+offsetX-left,y+offsetY+proportion,paint);
 
@@ -64,17 +61,17 @@ public class TextBlock extends Block {
 
     @Override
     protected void builder(Setting setting, Paint paint, float textSize) {
-        this.textsize=textSize;
+        this.textSize =textSize;
         Rect bound=getBound(paint,textSize,text);
-        this.height=setting.Rect_Height* textsize / setting.DefaultTextSize;
+        this.height=setting.Rect_Height* this.textSize / setting.DefaultTextSize;
         this.left=bound.left;
         this.width=getBound2(setting,textSize,text);
-        proportion = -setting.maxbottom * textsize / setting.DefaultTextSize+this.height;
+        proportion = -setting.maxbottom * this.textSize / setting.DefaultTextSize+this.height;
 
 }
 
 
-    public float getTextsize(){
-        return this.textsize;
+    public float getTextSize(){
+        return this.textSize;
     }
 }
