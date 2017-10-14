@@ -19,7 +19,6 @@ public class DivisionBlock extends Block {
     public float divX,divY,strokeHeight;
 
     public DivisionBlock(){
-        super("");
         this.numerators=new BlockContainer();
         this.denominators=new BlockContainer();
         this.numerators.setParent(this);

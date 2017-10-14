@@ -14,7 +14,7 @@ import ha.drawing.Setting;
 /**
  * Created by hassan on 1/3/2017.
  */
-public abstract class BracketBlock extends Block {
+public abstract class BracketBlock extends TextBlock {
 
 
     public BracketBlock(String c){
@@ -74,15 +74,7 @@ public abstract class BracketBlock extends Block {
 
 
 
-    @Override
-    public float getBaseLine() {
-        return height/2;
-    }
 
-    @Override
-    public String show() {
-        return text;
-    }
 
 
 

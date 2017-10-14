@@ -18,8 +18,7 @@ public class PowerBlock extends Block {
     int powerHeightOffset=0;
 
     public PowerBlock() {
-        super("^");
-        powerBlock=new BlockContainer("");
+        powerBlock=new BlockContainer();
         powerBlock.setParent(this);
     }
 

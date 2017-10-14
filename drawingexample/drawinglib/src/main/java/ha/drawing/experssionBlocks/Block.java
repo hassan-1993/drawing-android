@@ -15,7 +15,6 @@ public abstract class Block {
 
 
     public float x,y,width,height;
-    protected String text;
     private Integer color=null;
     protected float lineHeight=10;
     private int strokeWidth;
@@ -28,8 +27,7 @@ public abstract class Block {
 
     public Block parent;
 
-    protected Block(String text){
-        this.text=text;
+    protected Block(){
     }
 
 
@@ -128,18 +126,7 @@ public abstract class Block {
 
 
 
-    public static Rect getBound(Paint paint, float textSize,String seq){
-        paint.setTextSize(textSize);
-        Rect bound=new Rect();
 
-        paint.getTextBounds(seq, 0, seq.length(), bound);
-        return bound;
-    }
-
-
-    public static float getBound2(Setting setting,float textSize,String seq){
-        return setting.getValue(seq)*setting.scaleTextSize(textSize);
-    }
 
     protected void setParent(Block parent){
         this.parent=parent;

@@ -15,7 +15,6 @@ import ha.drawing.Setting;
 public class EmptyBlock extends Block {
     float strokeWidth;
     public EmptyBlock() {
-        super("");
     }
 
     @Override

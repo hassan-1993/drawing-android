@@ -22,7 +22,6 @@ public class RadicalBlock extends Block {
 
 
     public RadicalBlock() {
-        super("");
         insideRadical = new BlockContainer();
         insideRadical.setParent(this);
 

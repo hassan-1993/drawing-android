@@ -25,7 +25,6 @@ public class MatrixBlock extends Block {
 
 
     public MatrixBlock() {
-        super("");
         leftBracket = new LeftBracketBlock();
         rightBracket = new RightBracketBlock();
     }

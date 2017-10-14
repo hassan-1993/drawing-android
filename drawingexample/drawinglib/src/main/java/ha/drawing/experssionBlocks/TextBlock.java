@@ -12,7 +12,7 @@ import ha.drawing.Setting;
  */
 public class TextBlock extends Block {
 
-
+    protected String text;
     protected float textSize;
 
 
@@ -23,7 +23,6 @@ public class TextBlock extends Block {
     //RectF textBlockRect;
 
     public TextBlock(String text){
-        super(text);
         this.text=text;
     }
 
@@ -72,5 +71,18 @@ public class TextBlock extends Block {
 
     public float getTextSize(){
         return this.textSize;
+    }
+
+    protected Rect getBound(Paint paint, float textSize,String seq){
+        paint.setTextSize(textSize);
+        Rect bound=new Rect();
+
+        paint.getTextBounds(seq, 0, seq.length(), bound);
+        return bound;
+    }
+
+
+    protected float getBound2(Setting setting,float textSize,String seq){
+        return setting.getValue(seq)*setting.scaleTextSize(textSize);
     }
 }

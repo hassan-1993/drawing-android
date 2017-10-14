@@ -28,12 +28,9 @@ public class BlockContainer extends Block {
 
     protected List<Block> children = new ArrayList<>();
 
-    public BlockContainer(String text) {
-        super(text);
-    }
 
     public BlockContainer() {
-        super("");
+
     }
 
     @Override
