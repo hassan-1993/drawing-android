@@ -21,7 +21,29 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
+    protected void measure(Setting setting, Paint paint, float textSize) {
+        float scale = textSize/setting.DefaultTextSize;
+
+        // PS: If zero means not set already
+        if(this.height == 0)
+            this.height = setting.Rect_Height*scale;
+
+        float c = this.height * setting.Bracket_Width_Fraction;
+        this.width = c < setting.Min_Bracket_Width ? setting.Min_Bracket_Width : c;
+        if (this.width > setting.max_Bracket_Width) {
+            this.width = setting.max_Bracket_Width;
+        }
+    }
+
+    @Override
+    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
+        super.layout(setting, paint, textSize, x, y);
+    }
+
+    @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+        paint.setStrokeWidth(2);
+
         switch (text.charAt(0)) {
             case ')':
             {
@@ -44,7 +66,6 @@ public abstract class BracketBlock extends TextBlock {
                 c.drawLine(offsetX + x + width * 0.25f, offsetY + y + height, offsetX + x + width * 0.83f, offsetY + y + height, paint);
                 break;
             }
-
             case ']':
             {
                 c.drawLine(offsetX + x + width * 0.75f, offsetY + y, offsetX + x + width * 0.75f, offsetY + y + height, paint);
@@ -52,22 +73,6 @@ public abstract class BracketBlock extends TextBlock {
                 c.drawLine(offsetX + x + width * 0.75f, offsetY + y + height, offsetX + x + width * 0.17f, offsetY + y + height, paint);
                 break;
             }
-
-
-        }
-    }
-
-    @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
-        float scale=textSize/setting.DefaultTextSize;
-        /*PS:if zero means not set already */
-        if(this.height==0)
-        this.height=setting.Rect_Height*scale;
-
-        float c = this.height * setting.Bracket_Width_Fraction;
-        this.width = c < setting.Min_Bracket_Width ? setting.Min_Bracket_Width : c;
-        if (this.width > setting.max_Bracket_Width) {
-            this.width = setting.max_Bracket_Width;
         }
     }
 }

@@ -46,19 +46,26 @@ public class PowerBlock extends Block {
     }
 
     @Override
-    public String show() {
-        return "^"+ "(" + powerBlock.show() + ")";
+    protected void measure(Setting setting, Paint paint, float textSize) {
+        float newtextsize = setting.PowerScaleProportion * textSize;
+        powerBlock.measure(setting, paint, newtextsize);
+        float scale = textSize / setting.DefaultTextSize;
+        powerHeightOffset= (int) (setting.PowerHeight * scale);
+        this.height = powerBlock.height+powerHeightOffset+before().height;
+        this.width = powerBlock.width+powerBlock.x;
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
+        super.layout(setting, paint, textSize, x, y);
+
         float scale = textSize / setting.DefaultTextSize;
-        float newtextsize = setting.PowerScaleProportion * textSize;
-        powerBlock.build(setting,paint,newtextsize);
-        powerBlock.x=scale * setting.PowerWidth;
-        powerHeightOffset= (int) (setting.PowerHeight * scale);
-        this.height=powerBlock.height+powerHeightOffset+before().height;
-        this.width=powerBlock.width+powerBlock.x;
+        powerBlock.layout(setting, paint, textSize, scale * setting.PowerWidth, 0);
+    }
+
+    @Override
+    public String show() {
+        return "^"+ "(" + powerBlock.show() + ")";
     }
 
     public BlockContainer getPower(){

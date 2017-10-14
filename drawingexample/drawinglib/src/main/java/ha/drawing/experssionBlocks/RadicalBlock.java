@@ -68,7 +68,7 @@ public class RadicalBlock extends Block {
     protected void measure(Setting setting, Paint paint, float textSize) {
         float scaling = textSize / setting.DefaultTextSize;
 
-        insideRadical.build(setting, paint, textSize);
+        insideRadical.measure(setting, paint, textSize);
 
         float newHeight = insideRadical.height * setting.ExtraPaddingTopFraction + setting.paddingTop_radical * scaling; //adding extra padding between radical and what inside it
         setHeight(newHeight + setting.ExtraRadicalHeight * scaling, setting.maxHeight);

@@ -60,14 +60,17 @@ public class TextBlock extends Block {
     @Override
     protected void measure(Setting setting, Paint paint, float textSize) {
         this.textSize=textSize;
-        Rect bound=getBound(paint,textSize,text);
         this.height=setting.Rect_Height* this.textSize / setting.DefaultTextSize;
-        this.left=bound.left;
         this.width=getBound2(setting,textSize,text);
         proportion = -setting.maxbottom * this.textSize / setting.DefaultTextSize+this.height;
+    }
 
-}
-
+    @Override
+    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
+        super.layout(setting, paint, textSize, x, y);
+        Rect bound=getBound(paint,textSize,text);
+        this.left=bound.left;
+    }
 
     public float getTextSize(){
         return this.textSize;

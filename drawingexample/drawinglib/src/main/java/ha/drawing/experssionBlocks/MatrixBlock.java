@@ -125,7 +125,7 @@ public class MatrixBlock extends Block {
             //for each column of each row build its block dimension (all of them at beginning will be at origin x and y equal 0
             for (Block col : row.getChildrens()) {
                 col.y = 0;
-                col.build(setting, paint, textSize);
+                col.measure(setting, paint, textSize);
                 col.setParent(row);
             }
         }
@@ -147,8 +147,8 @@ public class MatrixBlock extends Block {
         /*building height and width of the left and rightbracket*/
                 leftBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).height;
                 rightBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).height;
-                leftBracket.build(setting, paint, textSize);
-                rightBracket.build(setting, paint, textSize);
+                leftBracket.measure(setting, paint, textSize);
+                rightBracket.measure(setting, paint, textSize);
                 /**********************************************************/
             }
         /*reshift the position of rows based on leftbracket */

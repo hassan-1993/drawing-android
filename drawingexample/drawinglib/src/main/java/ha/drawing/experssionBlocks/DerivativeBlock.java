@@ -12,13 +12,13 @@ public class DerivativeBlock extends DivisionBlock {
 
     public DerivativeBlock(char variable) {
         this.variable=variable;
-        this.numerators.addChild(new TextBlock("d"));
+        this.numerator.addChild(new TextBlock("d"));
 
-        this.denominators.addChild(new TextBlock("d"));
+        this.denominator.addChild(new TextBlock("d"));
         if(variable=='$'){
-            this.denominators.addChild(new EmptyBlock());
+            this.denominator.addChild(new EmptyBlock());
         }else{
-            this.denominators.addChild(new TextBlock(variable+""));
+            this.denominator.addChild(new TextBlock(variable+""));
         }
     }
 
@@ -29,7 +29,7 @@ public class DerivativeBlock extends DivisionBlock {
 
     @Override
     public String show() {
-        return "derive(" + this.denominators.getChild(1).show() + ",";
+        return "derive(" + this.denominator.getChild(1).show() + ",";
     }
 
 }
