@@ -144,7 +144,7 @@ public class BlockContainer extends Block {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
     {
             /**********building the width and height of all childrens************************/
             this.rebuild = true;
@@ -158,9 +158,9 @@ public class BlockContainer extends Block {
                     child.setReBuild(true);
                 }
                 child.height = 0;
-                ;
+
                 child.setParent(this);
-                child.build(setting, paint, textSize);
+                child.measure(setting, textSize);
             }
             /***********************************************************************************/
         }
@@ -195,7 +195,7 @@ public class BlockContainer extends Block {
         shiftAboveZero();
         for (Block child : children) {
             if (child.getId() == BlockID.LEFT_BRACKET || child.getId() == BlockID.RIGHT_BRACKET) {
-                child.build(setting, paint, textSize);
+                child.measure(setting, textSize);
             }
         }
         //calculate container height again since it might have changed after building bracket ()

@@ -39,7 +39,7 @@ public class EmptyBlock extends Block {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         float scale=textSize/setting.DefaultTextSize;
         this.width=setting.TEXT_SPACING*2*scale+setting.Rect_Min_Width*scale;
         this.height=setting.Rect_Height*scale;

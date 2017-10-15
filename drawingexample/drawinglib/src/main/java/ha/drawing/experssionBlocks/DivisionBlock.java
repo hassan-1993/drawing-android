@@ -31,10 +31,10 @@ public class DivisionBlock extends Block {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         // Measure the numerator and denominator
-        numerator.measure(setting, paint, textSize);
-        denominator.measure(setting, paint, textSize);
+        numerator.measure(setting, textSize);
+        denominator.measure(setting, textSize);
 
         //
         float scale = textSize / setting.DefaultTextSize;
@@ -55,8 +55,8 @@ public class DivisionBlock extends Block {
     }
 
     @Override
-    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
-        super.layout(setting, paint, textSize, x, y);
+    protected void layout(Setting setting, float textSize, float x, float y) {
+        super.layout(setting, textSize, x, y);
 
         float scale = textSize / setting.DefaultTextSize;
         float shift = setting.block_Division_Margin * scale;
@@ -71,8 +71,8 @@ public class DivisionBlock extends Block {
         float denominatorY = this.divisionLineY + shift + this.strokeHeight;
 
         // Set numerator and denominator position.
-        numerator.layout(setting, paint, textSize, numCenterX, 0);
-        denominator.layout(setting, paint, textSize, denCenterX, denominatorY);
+        numerator.layout(setting, textSize, numCenterX, 0);
+        denominator.layout(setting, textSize, denCenterX, denominatorY);
     }
 
     @Override

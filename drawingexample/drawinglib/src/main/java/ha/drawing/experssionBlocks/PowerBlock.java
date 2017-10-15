@@ -46,9 +46,9 @@ public class PowerBlock extends Block {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         float newtextsize = setting.PowerScaleProportion * textSize;
-        powerBlock.measure(setting, paint, newtextsize);
+        powerBlock.measure(setting, newtextsize);
         float scale = textSize / setting.DefaultTextSize;
         powerHeightOffset= (int) (setting.PowerHeight * scale);
         this.height = powerBlock.height+powerHeightOffset+before().height;
@@ -56,11 +56,11 @@ public class PowerBlock extends Block {
     }
 
     @Override
-    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
-        super.layout(setting, paint, textSize, x, y);
+    protected void layout(Setting setting, float textSize, float x, float y) {
+        super.layout(setting, textSize, x, y);
 
         float scale = textSize / setting.DefaultTextSize;
-        powerBlock.layout(setting, paint, textSize, scale * setting.PowerWidth, 0);
+        powerBlock.layout(setting, textSize, scale * setting.PowerWidth, 0);
     }
 
     @Override

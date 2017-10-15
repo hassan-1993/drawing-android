@@ -34,7 +34,7 @@ public abstract class Block {
 
     public abstract BlockID getId();
     protected abstract void onDraw(Canvas c, Paint paint, float offsetX, float offsetY);
-    protected abstract void measure(Setting setting, Paint paint, float textSize);
+    protected abstract void measure(Setting setting, float textSize);
     public abstract String show();
     public abstract float getBaseLine();
 
@@ -46,7 +46,7 @@ public abstract class Block {
      * @param x Left position, relative to parent
      * @param y Top position, relative to parent
      */
-    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
+    protected void layout(Setting setting, float textSize, float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -64,8 +64,8 @@ public abstract class Block {
 
     public void build(Setting setting, Paint paint, float textSize){
         this.strokeWidth= (int) (setting.Defualtstroke*textSize/setting.DefaultTextSize);
-        measure(setting,paint,textSize);
-        layout(setting, paint, textSize, x, y);
+        measure(setting, textSize);
+        layout(setting, textSize, x, y);
     }
 
     public int index(){

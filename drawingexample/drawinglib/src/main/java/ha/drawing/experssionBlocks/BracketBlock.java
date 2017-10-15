@@ -21,7 +21,7 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         float scale = textSize/setting.DefaultTextSize;
 
         // PS: If zero means not set already
@@ -36,8 +36,8 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
-    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
-        super.layout(setting, paint, textSize, x, y);
+    protected void layout(Setting setting, float textSize, float x, float y) {
+        super.layout(setting, textSize, x, y);
     }
 
     @Override

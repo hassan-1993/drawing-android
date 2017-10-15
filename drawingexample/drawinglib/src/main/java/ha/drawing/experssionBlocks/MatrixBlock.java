@@ -112,7 +112,7 @@ public class MatrixBlock extends Block {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         if (rows.size() == 1 && rows.get(0).getChildren().size() == 2) {
             int r = 0;
             r++;
@@ -125,7 +125,7 @@ public class MatrixBlock extends Block {
             //for each column of each row build its block dimension (all of them at beginning will be at origin x and y equal 0
             for (Block col : row.getChildrens()) {
                 col.y = 0;
-                col.measure(setting, paint, textSize);
+                col.measure(setting, textSize);
                 col.setParent(row);
             }
         }
@@ -136,8 +136,8 @@ public class MatrixBlock extends Block {
 
 
         /*calculating the y and x positiions of rows and cols ,also the width and height of this*/
-        buildVerticalDimensiopn(setting, paint, textSize);
-        buildHoriznetalDimensiopn(setting, paint, textSize);
+        buildVerticalDimensiopn(setting, textSize);
+        buildHoriznetalDimensiopn(setting, textSize);
         /**************************************************************************************/
 
 
@@ -147,8 +147,8 @@ public class MatrixBlock extends Block {
         /*building height and width of the left and rightbracket*/
                 leftBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).height;
                 rightBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).height;
-                leftBracket.measure(setting, paint, textSize);
-                rightBracket.measure(setting, paint, textSize);
+                leftBracket.measure(setting, textSize);
+                rightBracket.measure(setting, textSize);
                 /**********************************************************/
             }
         /*reshift the position of rows based on leftbracket */
@@ -173,7 +173,7 @@ public class MatrixBlock extends Block {
         this.centerColumn = centerColumn;
     }
 
-    private void buildVerticalDimensiopn(Setting setting, Paint paint, float textSize) {
+    private void buildVerticalDimensiopn(Setting setting, float textSize) {
         //adding margin top and bottom
         float Matrix_TopBottom_margin = setting.TopBottomOffsetY;
 
@@ -220,7 +220,7 @@ public class MatrixBlock extends Block {
         }
     }
 
-    private void buildHoriznetalDimensiopn(Setting setting, Paint paint, float textSize) {
+    private void buildHoriznetalDimensiopn(Setting setting, float textSize) {
 
 //99  48
 

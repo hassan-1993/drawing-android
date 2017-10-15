@@ -24,10 +24,10 @@ public class BaseBlock extends Block {
     }
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         // Measure the log and base
-        log.measure(setting,paint,textSize);
-        base.measure(setting,paint,textSize);
+        log.measure(setting, textSize);
+        base.measure(setting, textSize);
 
         // Set width and height
         this.width = log.width + base.width;
@@ -35,8 +35,8 @@ public class BaseBlock extends Block {
     }
 
     @Override
-    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
-        super.layout(setting, paint, textSize, x, y);
+    protected void layout(Setting setting, float textSize, float x, float y) {
+        super.layout(setting, textSize, x, y);
 
         textSize = textSize*setting.BaseScaleProportion;
         float scale = (textSize)/setting.DefaultTextSize;
@@ -46,7 +46,7 @@ public class BaseBlock extends Block {
         float baseY = log.height + setting.BaseOffsetHeight*scale;
 
         // Set base position
-        base.layout(setting, paint, textSize, baseX, baseY);
+        base.layout(setting, textSize, baseX, baseY);
     }
 
     @Override

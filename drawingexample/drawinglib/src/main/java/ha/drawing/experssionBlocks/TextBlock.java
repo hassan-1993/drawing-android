@@ -58,7 +58,7 @@ public class TextBlock extends Block {
 
 
     @Override
-    protected void measure(Setting setting, Paint paint, float textSize) {
+    protected void measure(Setting setting, float textSize) {
         this.textSize=textSize;
         this.height=setting.Rect_Height* this.textSize / setting.DefaultTextSize;
         this.width=getBound2(setting,textSize,text);
@@ -66,9 +66,9 @@ public class TextBlock extends Block {
     }
 
     @Override
-    protected void layout(Setting setting, Paint paint, float textSize, float x, float y) {
-        super.layout(setting, paint, textSize, x, y);
-        Rect bound=getBound(paint,textSize,text);
+    protected void layout(Setting setting, float textSize, float x, float y) {
+        super.layout(setting, textSize, x, y);
+        Rect bound=getBound(textSize,text);
         this.left=bound.left;
     }
 
@@ -76,7 +76,8 @@ public class TextBlock extends Block {
         return this.textSize;
     }
 
-    protected Rect getBound(Paint paint, float textSize,String seq){
+    protected Rect getBound(float textSize,String seq){
+        Paint paint = new Paint();
         paint.setTextSize(textSize);
         Rect bound=new Rect();
 
