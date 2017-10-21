@@ -1,10 +1,7 @@
 package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-
-import com.example.scanner.TokenID;
 
 import ha.drawing.Setting;
 
@@ -42,6 +39,6 @@ public class EmptyBlock extends Block {
     protected void measure(Setting setting, float textSize) {
         float scale=textSize/setting.DefaultTextSize;
         this.width=setting.TEXT_SPACING*2*scale+setting.Rect_Min_Width*scale;
-        this.height=setting.Rect_Height*scale;
+        this.height=setting.RECT_HEIGHT *scale;
     }
 }

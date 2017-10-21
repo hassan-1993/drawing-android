@@ -5,9 +5,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 
-import com.example.scanner.TokenID;
-
-
 import ha.drawing.Setting;
 
 
@@ -26,7 +23,7 @@ public abstract class BracketBlock extends TextBlock {
 
         // PS: If zero means not set already
         if(this.height == 0)
-            this.height = setting.Rect_Height*scale;
+            this.height = setting.RECT_HEIGHT *scale;
 
         float c = this.height * setting.Bracket_Width_Fraction;
         this.width = c < setting.Min_Bracket_Width ? setting.Min_Bracket_Width : c;
@@ -36,7 +33,7 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
-    protected void layout(Setting setting, float textSize, float x, float y) {
+    protected void onLayout(Setting setting, float textSize, float x, float y) {
         super.layout(setting, textSize, x, y);
     }
 

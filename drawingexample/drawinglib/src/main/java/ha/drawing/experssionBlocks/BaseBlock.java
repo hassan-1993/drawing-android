@@ -35,9 +35,7 @@ public class BaseBlock extends Block {
     }
 
     @Override
-    protected void layout(Setting setting, float textSize, float x, float y) {
-        super.layout(setting, textSize, x, y);
-
+    protected void onLayout(Setting setting, float textSize, float x, float y) {
         textSize = textSize*setting.BaseScaleProportion;
         float scale = (textSize)/setting.DefaultTextSize;
 
@@ -51,8 +49,8 @@ public class BaseBlock extends Block {
 
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
-        log.draw(c, paint, offsetX+x, offsetY+y);
-        base.draw(c, paint, offsetX+x, offsetY+y);
+        log.draw(c, paint, offsetX, offsetY);
+        base.draw(c, paint, offsetX, offsetY);
     }
 
     @Override

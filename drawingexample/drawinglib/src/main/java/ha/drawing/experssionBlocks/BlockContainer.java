@@ -3,8 +3,6 @@ package ha.drawing.experssionBlocks;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.example.scanner.TokenID;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +39,7 @@ public class BlockContainer extends Block {
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         for (Block block : children) {
             paint.setStyle(Paint.Style.FILL);
-            block.draw(c, paint, offsetX + x, offsetY + y);
+            block.draw(c, paint, offsetX, offsetY);
         }
     }
 
@@ -145,96 +143,89 @@ public class BlockContainer extends Block {
 
     @Override
     protected void measure(Setting setting, float textSize) {
-    {
-            /**********building the width and height of all childrens************************/
-            this.rebuild = true;
-            for (Block child : children) {
-                child.x = 0;
-                child.y = 0;
-                if (!child.isReBuild()) {/*means block is builded no need to rebuild it again*/
-                  //  continue;
-                } else {
-                   // Debug.logBlock("building", child);
-                    child.setReBuild(true);
-                }
-                child.height = 0;
+        float width = 0;
+        float height = 0;
 
-                child.setParent(this);
-                child.measure(setting, textSize);
-            }
-            /***********************************************************************************/
-        }
-
-
-        /******setting the y position for all blocks based on their baseline*/
-        {
-            if (children.size() != 0) {
-                children.get(0).y = 0;
-                float baseLine = children.get(0).getBaseLine();
-                for (int i = 1; i < children.size(); i++) {
-                    Block child = children.get(i);
-                    float baseline1 = children.get(i).getBaseLine();
-                    if(child.before() instanceof BracketBlock && child.getId()==BlockID.POWER) {
-                        /*in case of power and before it is a bracket
-                        * the bracket is not build yet so we can not use it to calculate the baseline of power yet*/
-                    }else{
-                        child.y = baseLine - baseline1;
-                    }
-                }
-            }
-            /************************************************************************************/
-        }
-
-
-        shiftAboveZero();
-
-        /*calculate current height since it might be needed in buidling the brackets*/
-        calculateContainerHeight();
-
-        buildPowerBracketHeight(this,setting,textSize);
-        shiftAboveZero();
+        this.rebuild = true;
         for (Block child : children) {
-            if (child.getId() == BlockID.LEFT_BRACKET || child.getId() == BlockID.RIGHT_BRACKET) {
-                child.measure(setting, textSize);
-            }
-        }
-        //calculate container height again since it might have changed after building bracket ()
-        calculateContainerHeight();
+            if (child.isReBuild())
+                child.setReBuild(true);
 
+            //
+            child.setParent(this);
+            child.measure(setting, textSize);
 
-
-        {
-            /*******************calculating the x positions of all children*************************/
-            float currentX = 0;
-            float shiftX = setting.TEXT_SPACING * setting.scaleTextSize(textSize);
-            float spaceShiftX = setting.WORD_SPACING * setting.scaleTextSize(textSize); //used for space between words
-            float shiftOperator = setting.block_Margin_Operator * setting.scaleTextSize(textSize);
-            for (Block child : children) {
-                Block before = child.before();
-                if ((before != null && (before.getId() == BlockID.WORD || before.getId() == BlockID.PARENT))) {
-                    /*this used only in description */
-                    currentX += spaceShiftX;
-                } else if (child.getId() == BlockID.Operator || (before != null && before.getId() == BlockID.Operator)) {
-                    currentX += shiftOperator;
-                } else if (child.getId() != BlockID.POWER) {
-                    currentX += shiftX;
-                }
-                child.x = currentX;
-                currentX += child.width;
-            }
-            /***************************************************************************************/
+            //
+            width += child.width;
+            if(child.height > height)
+                height = child.height;
         }
 
-        {
-            /*** calculating the width of the entire block (this)**********************************/
-            if (children.size() != 0) {
-                Block lastChild = children.get(children.size() - 1);
-                this.width = lastChild.width + lastChild.x;
-            }
-            /*************************************************************************************/
+        //
+        setMeasurement(width, height);
+    }
+
+    @Override
+    protected void onLayout(Setting setting, float textSize, float x, float y) {
+        float xx = x;
+        for(Block block : children){
+            block.layout(setting, textSize, xx, y);
+            xx += block.width;
         }
 
-
+//        if (children.size() != 0) {
+//            children.get(0).y = 0;
+//            float baseLine = children.get(0).getBaseLine();
+//            for (int i = 1; i < children.size(); i++) {
+//                Block child = children.get(i);
+//                float baseline1 = children.get(i).getBaseLine();
+//                if(child.before() instanceof BracketBlock && child.getId()==BlockID.POWER) {
+//                        /*in case of power and before it is a bracket
+//                        * the bracket is not build yet so we can not use it to calculate the baseline of power yet*/
+//                }else{
+//                    child.y = baseLine - baseline1;
+//                }
+//            }
+//        }
+//
+//        shiftAboveZero();
+//
+//        /*calculate current height since it might be needed in buidling the brackets*/
+//        calculateContainerHeight();
+//
+//        buildPowerBracketHeight(this,setting,textSize);
+//        shiftAboveZero();
+//        for (Block child : children) {
+//            if (child.getId() == BlockID.LEFT_BRACKET || child.getId() == BlockID.RIGHT_BRACKET) {
+//                child.measure(setting, textSize);
+//            }
+//        }
+//        //calculate container height again since it might have changed after building bracket ()
+//        calculateContainerHeight();
+//
+//        /*******************calculating the x positions of all children*************************/
+//        float currentX = 0;
+//        float shiftX = setting.TEXT_SPACING * setting.scaleTextSize(textSize);
+//        float spaceShiftX = setting.WORD_SPACING * setting.scaleTextSize(textSize); //used for space between words
+//        float shiftOperator = setting.block_Margin_Operator * setting.scaleTextSize(textSize);
+//        for (Block child : children) {
+//            Block before = child.before();
+//            if ((before != null && (before.getId() == BlockID.WORD || before.getId() == BlockID.PARENT))) {
+//                    /*this used only in description */
+//                currentX += spaceShiftX;
+//            } else if (child.getId() == BlockID.Operator || (before != null && before.getId() == BlockID.Operator)) {
+//                currentX += shiftOperator;
+//            } else if (child.getId() != BlockID.POWER) {
+//                currentX += shiftX;
+//            }
+//            child.x = currentX;
+//            currentX += child.width;
+//        }
+//
+//        if (children.size() != 0) {
+//            Block lastChild = children.get(children.size() - 1);
+//            this.width = lastChild.width + lastChild.x;
+//        }
     }
 
     /**
@@ -367,7 +358,7 @@ public class BlockContainer extends Block {
                         }
 
                         /*if nothing before it than use the default height of block*/
-                        b.height = setting.Rect_Height*setting.scaleTextSize(textSize);
+                        b.height = setting.RECT_HEIGHT *setting.scaleTextSize(textSize);
                     }
                     if(isPowerAfterBracket(b)){
                             /*calculate the y position of power block since it depends on the right bracket before it

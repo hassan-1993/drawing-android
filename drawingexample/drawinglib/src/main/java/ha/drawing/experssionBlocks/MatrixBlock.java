@@ -38,22 +38,20 @@ public class MatrixBlock extends Block {
 
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
-
-        for (BlockContainer row : rows) {
-            row.draw(c, paint, offsetX + x, offsetY + y);
-        }
+        for (BlockContainer row : rows)
+            row.draw(c, paint, offsetX, offsetY);
 
         if (!disableBracket) {
-            leftBracket.draw(c, paint, offsetX + x, offsetY + y);
-            rightBracket.draw(c, paint, offsetX + x, offsetY + y);
+            leftBracket.draw(c, paint, offsetX, offsetY);
+            rightBracket.draw(c, paint, offsetX, offsetY);
         }
+
         Paint border = new Paint();
         border.setStrokeWidth(5);
         border.setStyle(Paint.Style.STROKE);
         border.setColor(Color.BLACK);
 
-
-        c.drawRect(x + offsetX, y + offsetY, x + offsetX, y + offsetY, border);
+        c.drawRect(x, y, x, y, border);
     }
 
     @Override

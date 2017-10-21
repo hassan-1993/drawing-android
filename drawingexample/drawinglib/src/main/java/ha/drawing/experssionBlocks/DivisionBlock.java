@@ -41,22 +41,23 @@ public class DivisionBlock extends Block {
         lineHeight = scale*setting.TEXT_SPACING;
         strokeHeight = 2;
 
-        // Set the width
-        this.width = this.numerator.width < this.denominator.width ? this.denominator.width : this.numerator.width;
+        // Calculate width and height.
+        float shift = setting.block_Division_Margin * scale;
+        float height = numerator.height + shift + this.denominator.height;
+        float width = this.numerator.width < this.denominator.width ? this.denominator.width : this.numerator.width;
 
         // Add extra width factor
-        this.width *= setting.DivisonWidthFactor;
+        width *= setting.DivisonWidthFactor;
 
         // Add extra division width default offset
-        this.width += setting.DivisionOffsetWidth * scale * 2;
+        width += setting.DivisionOffsetWidth * scale * 2;
 
-        // set the height
-        height = numerator.width + this.denominator.height;
+        //
+        setMeasurement(width, height);
     }
 
     @Override
-    protected void layout(Setting setting, float textSize, float x, float y) {
-        super.layout(setting, textSize, x, y);
+    protected void onLayout(Setting setting, float textSize, float x, float y) {
 
         float scale = textSize / setting.DefaultTextSize;
         float shift = setting.block_Division_Margin * scale;

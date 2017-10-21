@@ -1,6 +1,7 @@
 package ha.drawing.experssionBlocks;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -38,6 +39,12 @@ public abstract class Block {
     public abstract String show();
     public abstract float getBaseLine();
 
+    protected void layout(Setting setting, float textSize, float x, float y) {
+        this.x = x;
+        this.y = y;
+        onLayout(setting, textSize, x, y);
+    }
+
     /**
      * Derived classes with children should override
      * this method and call layout on each of
@@ -46,9 +53,8 @@ public abstract class Block {
      * @param x Left position, relative to parent
      * @param y Top position, relative to parent
      */
-    protected void layout(Setting setting, float textSize, float x, float y) {
-        this.x = x;
-        this.y = y;
+    protected void onLayout(Setting setting, float textSize, float x, float y){
+
     }
 
     public void draw(Canvas c, Paint paint, float offsetX, float offsetY){
@@ -57,12 +63,20 @@ public abstract class Block {
         if(color!=null){
             paint.setColor(color);
         }
-        onDraw(c,paint,offsetX,offsetY);
-        paint.setStyle(Paint.Style.FILL);/*set back paint to fill in case changed*/
+        onDraw(c,paint, offsetX, offsetY);
+        paint.setStyle(Paint.Style.FILL);
         paint.setColor(tempColor);
+        drawBox(c, new Paint());
     }
 
-    public void build(Setting setting, Paint paint, float textSize){
+    public void drawBox(Canvas c, Paint paint){
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(3);
+        paint.setStyle(Paint.Style.STROKE);
+        c.drawRect(x, y, x+width, y+height, paint);
+    }
+
+    public void build(Setting setting, float textSize){
         this.strokeWidth= (int) (setting.Defualtstroke*textSize/setting.DefaultTextSize);
         measure(setting, textSize);
         layout(setting, textSize, x, y);
@@ -80,6 +94,11 @@ public abstract class Block {
 
     public Block before(){
         return parent!=null&&index()-1>=0?getParent().getChild(index()-1):null;
+    }
+
+    protected void setMeasurement(float width, float height){
+        this.width = width;
+        this.height = height;
     }
 
     public boolean validate(){

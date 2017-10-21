@@ -48,116 +48,116 @@ public class BlockHelper {
 
     private void buildBlocks(Expression tree, BlockContainer block) {
         TokenID id = tree.getId();
+        boolean addBracket = addBracket(tree);
 
+        if (addBracket) {
+            block.addChild(BlockFactory.leftBracket());
+        }
 
-
-            boolean addBracket = addBracket(tree);
-
-            if (addBracket) {
+        switch (id) {
+            case BRACKET:
                 block.addChild(BlockFactory.leftBracket());
-            }
-
-            switch (id) {
-                case LOG:
-                    BaseBlock baseBlock = new BaseBlock("log");
-                    buildBlocks(tree.getChild(0), baseBlock.getBase());
+                buildBlocks(tree.getChild(0), block);
+                block.addChild(new RightBracketBlock());
+                break;
+            case LOG:
+                BaseBlock baseBlock = new BaseBlock("log");
+                buildBlocks(tree.getChild(0), baseBlock.getBase());
+                block.addChild(baseBlock);
+                block.addChild(BlockFactory.leftBracket());
+                buildBlocks(tree.getChild(1), block);
+                block.addChild(new RightBracketBlock());
+                break;
+            case ADDITION:
+            case SUBTRACTION:
+            case MULTIPLICATION:
+            case EQUAL:
+                for (int i = 0; i < tree.getChildCount(); i++) {
+                    buildBlocks(tree.getChild(i), block);
+                    if (i < tree.getChildCount() - 1) {
+                        if (tree.getId() != TokenID.MULTIPLICATION || addMultiplication(tree, i)) {
+                            OperatorBlock operatorBlock = new OperatorBlock(tree.getSequence());
+                            block.addChild(operatorBlock);
+                        }
+                    }
+                }
+                break;
+            case NUMBER:
+            case CONSTANT:
+                block.addChild(new TextBlock(tree.getSequence()));
+                break;
+            case NEGATIVE:
+            case POSITIVE:
+                block.addChild(new OperatorBlock(tree.getSequence()));
+                buildBlocks(tree.getChild(0), block);
+                break;
+            case DERIVE:
+                DerivativeBlock derivativeBlock = new DerivativeBlock(tree.getChild(0).getSequence().charAt(0));
+                block.addChild(derivativeBlock);
+                block.addChild(new LeftBracketBlock());
+                buildBlocks(tree.getChild(1), block);
+                block.addChild(new RightBracketBlock());
+                break;
+            case DIVISION:
+            case FRACTION:
+                DivisionBlock divisionBlock = new DivisionBlock();
+                buildBlocks(tree.getChild(0), divisionBlock.getNumerators());
+                buildBlocks(tree.getChild(1), divisionBlock.getDenominators());
+                block.addChild(divisionBlock);
+                break;
+            case FUNCTION:
+                if (tree.getSequence().equals("log")) {
+                    baseBlock = new BaseBlock("log");
+                    buildBlocks(tree.getChild(0).getChild(0), baseBlock.getBase());
                     block.addChild(baseBlock);
                     block.addChild(BlockFactory.leftBracket());
-                    buildBlocks(tree.getChild(1), block);
+                    buildBlocks(tree.getChild(0).getChild(1), block);
                     block.addChild(new RightBracketBlock());
-                    break;
-                case ADDITION:
-                case SUBTRACTION:
-                case MULTIPLICATION:
-                case EQUAL:
-                    for (int i = 0; i < tree.getChildCount(); i++) {
-                        buildBlocks(tree.getChild(i), block);
-                        if (i < tree.getChildCount() - 1) {
-                            if (tree.getId() != TokenID.MULTIPLICATION || addMultiplication(tree, i)) {
-                                OperatorBlock operatorBlock = new OperatorBlock(tree.getSequence());
-                                block.addChild(operatorBlock);
-                            }
-                        }
-                    }
-                    break;
-                case NUMBER:
-                case CONSTANT:
+                } else {
                     block.addChild(new TextBlock(tree.getSequence()));
-                    break;
-                case NEGATIVE:
-                case POSITIVE:
-                    block.addChild(new OperatorBlock(tree.getSequence()));
-                    buildBlocks(tree.getChild(0), block);
-                    break;
-                case DERIVE:
-                    DerivativeBlock derivativeBlock = new DerivativeBlock(tree.getChild(0).getSequence().charAt(0));
-                    block.addChild(derivativeBlock);
                     block.addChild(new LeftBracketBlock());
-                    buildBlocks(tree.getChild(1), block);
+                    buildBlocks(tree.getChild(0), block);
                     block.addChild(new RightBracketBlock());
-                    break;
-                case DIVISION:
-                case FRACTION:
-                    DivisionBlock divisionBlock = new DivisionBlock();
-                    buildBlocks(tree.getChild(0), divisionBlock.getNumerators());
-                    buildBlocks(tree.getChild(1), divisionBlock.getDenominators());
-                    block.addChild(divisionBlock);
-                    break;
-                case FUNCTION:
-                    if (tree.getSequence().equals("log")) {
-                        baseBlock = new BaseBlock("log");
-                        buildBlocks(tree.getChild(0), baseBlock.getBase());
-                        block.addChild(baseBlock);
-                        block.addChild(BlockFactory.leftBracket());
-                        buildBlocks(tree.getChild(1), block);
-                        block.addChild(new RightBracketBlock());
-                    } else {
-                        block.addChild(new TextBlock(tree.getSequence()));
-                        block.addChild(new LeftBracketBlock());
-                        buildBlocks(tree.getChild(0), block);
-                        block.addChild(new RightBracketBlock());
+                }
+                break;
+            case EXPONENTIAL:
+                block.addChild(new TextBlock("e"));
+                break;
+            case FACTORIAL:
+                buildBlocks(tree.getChild(0), block);
+                block.addChild(new TextBlock("!"));
+                break;
+            case MATRIX:
+                MatrixBlock matrixBlock = new MatrixBlock();
+                for (int r = 0; r < tree.getChildCount(); r++) {
+                    BlockContainer row = new BlockContainer();
+                    for (int c = 0; c < tree.getChild(r).getChildCount(); c++) {
+                        BlockContainer col = new BlockContainer();
+                        buildBlocks(tree.getChild(r).getChild(c), col);
+                        row.addChild(col);
                     }
-                    break;
-                case EXPONENTIAL:
-                    block.addChild(new TextBlock("e"));
-                    break;
-                case FACTORIAL:
-                    buildBlocks(tree.getChild(0), block);
-                    block.addChild(new TextBlock("!"));
-                    break;
-                case MATRIX:
-                    MatrixBlock matrixBlock = new MatrixBlock();
-                    for (int r = 0; r < tree.getChildCount(); r++) {
-                        BlockContainer row = new BlockContainer();
-                        for (int c = 0; c < tree.getChild(r).getChildCount(); c++) {
-                            BlockContainer col = new BlockContainer();
-                            buildBlocks(tree.getChild(r).getChild(c), col);
-                            row.addChild(col);
-                        }
-                        matrixBlock.addRow(row);
-                    }
-                    block.addChild(matrixBlock);
-                    break;
-                case POWER:
-                    PowerBlock powerBlock = new PowerBlock();
-                    buildBlocks(tree.getChild(1), powerBlock.getPower());
-                    buildBlocks(tree.getChild(0), block);
-                    block.addChild(powerBlock);
-                    break;
-                case SQRT:
-                    RadicalBlock radicalBlock = new RadicalBlock();
-                    buildBlocks(tree.getChild(0), radicalBlock.getInsideRadical());
-                    block.addChild(radicalBlock);
-                    break;
-                case MAT_INVERSE:
-                    break;
-            }
+                    matrixBlock.addRow(row);
+                }
+                block.addChild(matrixBlock);
+                break;
+            case POWER:
+                PowerBlock powerBlock = new PowerBlock();
+                buildBlocks(tree.getChild(1), powerBlock.getPower());
+                buildBlocks(tree.getChild(0), block);
+                block.addChild(powerBlock);
+                break;
+            case SQRT:
+                RadicalBlock radicalBlock = new RadicalBlock();
+                buildBlocks(tree.getChild(0), radicalBlock.getInsideRadical());
+                block.addChild(radicalBlock);
+                break;
+            case MAT_INVERSE:
+                break;
+        }
 
-            if (addBracket) {
-                block.addChild(new RightBracketBlock());
-            }
-
-
+        if (addBracket) {
+            block.addChild(new RightBracketBlock());
+        }
     }
 
 
@@ -170,7 +170,7 @@ public class BlockHelper {
         BlockContainer parentBlock = new BlockContainer();
         buildBlocks(expression, parentBlock);
         parentBlock.root = true;
-        parentBlock.build(setting, setting.getPaint(), textSize);
+        parentBlock.build(setting, textSize);
         return parentBlock;
     }
 

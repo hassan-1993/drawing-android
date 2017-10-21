@@ -19,14 +19,23 @@ public class Setting {
     private  boolean init=false;
     public   float DefaultTextSize=80;
 
-    public  float MAX_TextHeight=0; // the maximum height possible of a number that is between 1,2,3,4,5,6,7,8,9,0
-    public  float Rect_Min_Width=0; //the width of block with TokenID T_EMPTY
+    // Maximum height possible of a number that is between 1,2,3,4,5,6,7,8,9,0
+    public  float MAX_TextHeight=0;
 
+    // Width of block with TokenID T_EMPTY
+    public  float Rect_Min_Width=0;
 
-    public float TEXT_SPACING=8;
-    public float WORD_SPACING=20; //used between words
-    public float Rect_Height=80; //the height of a block that contain text like 9
-    public float block_Margin_Operator=10; //left and right margin of block containing for  operator * - = or + or  in case  there two division near each other like equation {5/5}{4/4}  we addNewEquation a margin left for first one {5/5}
+    public float TEXT_SPACING = 8;
+
+    // Used between words
+    public float WORD_SPACING = 20;
+
+    // The height of a block that contain text like '9'
+    public float RECT_HEIGHT = 80;
+
+    // Left and right margin of block containing an operator '*' '-' '=' '+' or ' ' in case there is two division
+    // near each other like equation {5/5}{4/4} we addNewEquation a margin left for first one {5/5}
+    public float block_Margin_Operator = 10;
 
 
 
@@ -146,7 +155,7 @@ public class Setting {
         float scaler=textsize/DefaultTextSize; //so we can adjust all the variables according to this value since for example small textsize will have smaller block margin and large bigger
 
         DefaultTextSize=textsize;
-        Rect_Height=textsize*0.95f;
+        RECT_HEIGHT =textsize*0.95f;
 
         TEXT_SPACING=TEXT_SPACING*scaler;
         WORD_SPACING=WORD_SPACING*scaler;
