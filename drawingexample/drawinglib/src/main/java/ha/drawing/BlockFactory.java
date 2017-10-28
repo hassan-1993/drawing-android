@@ -92,6 +92,10 @@ public class BlockFactory {
         return new BracketBlock("(", TokenID.LEFT_BRACKET);
     }
 
+    public static Block rightBracket() {
+        return new BracketBlock(")", TokenID.LEFT_BRACKET);
+    }
+
     public static Block addEmptyPowerBlock(){
         PowerBlock powerBlock=new PowerBlock();
         powerBlock.getPower().addChild(new EmptyBlock());

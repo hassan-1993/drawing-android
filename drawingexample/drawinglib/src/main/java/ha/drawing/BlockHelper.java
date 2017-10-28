@@ -56,6 +56,11 @@ public class BlockHelper {
             }
 
             switch (id) {
+                case BRACKET:
+                    block.addChild(BlockFactory.leftBracket());
+                    buildBlocks(tree.getChild(0),block);
+                    block.addChild(BlockFactory.rightBracket());
+                    break;
                 case LOG:
                     BaseBlock baseBlock = new BaseBlock("log");
                     buildBlocks(tree.getChild(0), baseBlock.getBase());
