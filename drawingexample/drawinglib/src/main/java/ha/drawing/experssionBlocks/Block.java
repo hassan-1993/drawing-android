@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import com.example.scanner.TokenID;
 
 import java.io.Serializable;
+import java.util.List;
 
 import ha.drawing.Setting;
 
@@ -183,5 +184,9 @@ public abstract class Block {
 
     public int getStrokeWidth(){
         return this.strokeWidth;
+    }
+
+    public List<Block> getChildren(){
+        return null;
     }
 }

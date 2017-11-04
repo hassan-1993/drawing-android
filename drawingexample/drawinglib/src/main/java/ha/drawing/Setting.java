@@ -48,7 +48,7 @@ public class Setting {
 
 
     /********************for Power***************************/
-    public   float PowerHeight=-15;//the power height ,negative value means move closer
+    public   float PowerHeight=0;//the power height ,negative value means move closer
     public   float PowerWidth=0;//width of power like for example value=3 and 5^4 means x position of 4 is 3 pixal away from the end of 5
     public  float PowerScaleProportion=0.88f; //how much to scale down the textsize going with each power ,
 
@@ -93,6 +93,7 @@ public class Setting {
 
     private  Rect tempBound=new Rect();;
     public Setting(float floatsize){
+        floatsize=floatsize*0.7f;
         init(floatsize);
         initPaint(floatsize);
         set();
@@ -152,9 +153,9 @@ public class Setting {
         WORD_SPACING=WORD_SPACING*scaler;
         block_Margin_Operator= block_Margin_Operator*scaler; //left and right margin of block containing for  operator * - = or + or  in case  there two division near each other like equation {5/5}{4/4}  we addNewEquation a margin left for first one {5/5}
 
-
-       // float px = UnitConverter.dpToPx(Defualtstroke);
-        float px=30;
+        // TODO: 11/4/2017  remove the comment
+        //float px = UnitConverter.dpToPx(Defualtstroke);
+        float px=1;
         Defualtstroke=px;
         MinumumDefualtstroke=px*0.5f;
 

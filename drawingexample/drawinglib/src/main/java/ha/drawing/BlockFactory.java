@@ -93,7 +93,7 @@ public class BlockFactory {
     }
 
     public static Block rightBracket() {
-        return new BracketBlock(")", TokenID.LEFT_BRACKET);
+        return new BracketBlock(")", TokenID.RIGHT_BRACKET);
     }
 
     public static Block addEmptyPowerBlock(){
