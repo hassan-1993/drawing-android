@@ -30,8 +30,8 @@ public class BaseBlock extends Block {
         base.measure(setting, textSize);
 
         // Set width and height
-        this.width = log.width + base.width;
-        this.height = base.height + base.y;
+        this.setWidth(log.getWidth() + base.getWidth());
+        this.setHeight(base.getHeight() + base.y);
     }
 
     @Override
@@ -40,8 +40,8 @@ public class BaseBlock extends Block {
         float scale = (textSize)/setting.DefaultTextSize;
 
         // Calculate base position
-        float baseX = log.width + setting.BaseOffsetWidth*scale;
-        float baseY = log.height + setting.BaseOffsetHeight*scale;
+        float baseX = log.getWidth() + setting.BaseOffsetWidth*scale;
+        float baseY = log.getHeight() + setting.BaseOffsetHeight*scale;
 
         // Set base position
         base.layout(setting, textSize, baseX, baseY);
@@ -55,7 +55,7 @@ public class BaseBlock extends Block {
 
     @Override
     public float getBaseLineHeight() {
-        return this.log.height*0.66f;
+        return this.log.getHeight()*0.66f;
     }
 
     @Override

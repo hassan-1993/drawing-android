@@ -24,13 +24,13 @@ public abstract class BracketBlock extends TextBlock {
         float scale = textSize/setting.DefaultTextSize;
 
         // PS: If zero means not set already
-        if(this.height == 0)
-            this.height = setting.RECT_HEIGHT *scale;
+        if(this.getHeight() == 0)
+            this.setHeight(setting.RECT_HEIGHT *scale);
 
-        float c = this.height * setting.Bracket_Width_Fraction;
-        this.width = c < setting.Min_Bracket_Width ? setting.Min_Bracket_Width : c;
-        if (this.width > setting.max_Bracket_Width) {
-            this.width = setting.max_Bracket_Width;
+        float c = this.getHeight() * setting.Bracket_Width_Fraction;
+        this.setWidth(c < setting.Min_Bracket_Width ? setting.Min_Bracket_Width : c);
+        if (this.getWidth() > setting.max_Bracket_Width) {
+            this.setWidth(setting.max_Bracket_Width);
         }
     }
 
@@ -41,30 +41,30 @@ public abstract class BracketBlock extends TextBlock {
         switch (text.charAt(0)) {
             case ')':
             {
-                RectF rectF = new RectF(x, y, x + width, y + height);
+                RectF rectF = new RectF(x, y, x + getWidth(), y + getHeight());
                 paint.setStyle(Paint.Style.STROKE);
                 c.drawArc(rectF, 270, 180, false, paint);
                 break;
             }
             case '(':
             {
-                RectF rectF = new RectF(x, y, x + width, y + height);
+                RectF rectF = new RectF(x, y, x + getWidth(), y + getHeight());
                 paint.setStyle(Paint.Style.STROKE);
                 c.drawArc(rectF, 90, 180, false, paint);
                 break;
             }
             case '[':
             {
-                c.drawLine(offsetX + x + width * 0.25f, offsetY + y, offsetX + x + width * 0.25f, offsetY + y + height, paint);
-                c.drawLine(offsetX + x + width * 0.25f, offsetY + y, offsetX + x + width * 0.83f, offsetY + y, paint);
-                c.drawLine(offsetX + x + width * 0.25f, offsetY + y + height, offsetX + x + width * 0.83f, offsetY + y + height, paint);
+                c.drawLine(offsetX + x + getWidth() * 0.25f, offsetY + y, offsetX + x + getWidth() * 0.25f, offsetY + y + getHeight(), paint);
+                c.drawLine(offsetX + x + getWidth() * 0.25f, offsetY + y, offsetX + x + getWidth() * 0.83f, offsetY + y, paint);
+                c.drawLine(offsetX + x + getWidth() * 0.25f, offsetY + y + getHeight(), offsetX + x + getWidth() * 0.83f, offsetY + y + getHeight(), paint);
                 break;
             }
             case ']':
             {
-                c.drawLine(offsetX + x + width * 0.75f, offsetY + y, offsetX + x + width * 0.75f, offsetY + y + height, paint);
-                c.drawLine(offsetX + x + width * 0.75f, offsetY + y, offsetX + x + width * 0.17f, offsetY + y, paint);
-                c.drawLine(offsetX + x + width * 0.75f, offsetY + y + height, offsetX + x + width * 0.17f, offsetY + y + height, paint);
+                c.drawLine(offsetX + x + getWidth() * 0.75f, offsetY + y, offsetX + x + getWidth() * 0.75f, offsetY + y + getHeight(), paint);
+                c.drawLine(offsetX + x + getWidth() * 0.75f, offsetY + y, offsetX + x + getWidth() * 0.17f, offsetY + y, paint);
+                c.drawLine(offsetX + x + getWidth() * 0.75f, offsetY + y + getHeight(), offsetX + x + getWidth() * 0.17f, offsetY + y + getHeight(), paint);
                 break;
             }
         }

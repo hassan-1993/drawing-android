@@ -149,10 +149,10 @@ public class BlockContainer extends Block {
         // Calculate width and height.
         float baseLine = getBaseLineHeight();
         for (Block child : children) {
-            width += child.width;
+            width += child.getWidth();
 
             // Calculate Height by finding the largest height of the children
-            float blockHeight = child.height + baseLine - child.getBaseLineHeight();
+            float blockHeight = child.getHeight() + baseLine - child.getBaseLineHeight();
             if(blockHeight > height)
                 height = blockHeight;
         }
@@ -165,8 +165,8 @@ public class BlockContainer extends Block {
     protected void onLayout(Setting setting, float textSize, float x, float y) {
         float maxHeight = 0;
         for(Block block : children){
-            if(block.height > maxHeight)
-                maxHeight = block.height;
+            if(block.getHeight() > maxHeight)
+                maxHeight = block.getHeight();
         }
 
         //
@@ -176,7 +176,7 @@ public class BlockContainer extends Block {
             float blockBaseLine = block.getBaseLineHeight();
             float posY = y + baseLine - blockBaseLine;
             block.layout(setting, textSize, xx, posY);
-            xx += block.width;
+            xx += block.getWidth();
         }
 
 //        if (children.size() != 0) {
@@ -263,9 +263,9 @@ public class BlockContainer extends Block {
         /*get max height */
         for (Block child : children) {
            float y=child.y>=0?child.y:0;
-            maxHeight = maxHeight < child.height + y ? child.height + y : maxHeight;
+            maxHeight = maxHeight < child.getHeight() + y ? child.getHeight() + y : maxHeight;
         }
-        this.height = maxHeight;
+        this.setHeight(maxHeight);
     }
 
     public void removeChild(int index) {
@@ -309,23 +309,23 @@ public class BlockContainer extends Block {
                     for (int j = firstindex; j <= i; j++) {
                         Block check = blocks.getChildrens().get(j);
                         //in case of base block the height of bracket only includes the log
-                        maxY = maxY < check.y + check.height ? check.y + check.height : maxY;
+                        maxY = maxY < check.y + check.getHeight() ? check.y + check.getHeight() : maxY;
                         minY = minY > check.y ? check.y : minY;
                         found = true;
                     }
                     Block lastLeftBracket = stack.get(stack.size() - 1);
                     if (found) {
                         //now set the height and y
-                        lastLeftBracket.height = maxY - minY;
+                        lastLeftBracket.setHeight(maxY - minY);
                         lastLeftBracket.y = minY;
                         b.y = minY;
-                        b.height = maxY - minY;
+                        b.setHeight(maxY - minY);
                         stack.remove(stack.size() - 1);
 
                     } else {
-                        lastLeftBracket.height = blocks.height;
+                        lastLeftBracket.setHeight(blocks.getHeight());
                         lastLeftBracket.y = 0;
-                        b.height = blocks.height;
+                        b.setHeight(blocks.getHeight());
                         b.y = 0;
                     }
                     if(isPowerAfterBracket(b)){
@@ -343,13 +343,13 @@ public class BlockContainer extends Block {
                         if (check.getId() == BlockID.LEFT_BRACKET || check.getId() == BlockID.RIGHT_BRACKET) {
                             continue;
                         }
-                        maxY = maxY < check.y + check.height ? check.y + check.height : maxY;
+                        maxY = maxY < check.y + check.getHeight() ? check.y + check.getHeight() : maxY;
                         minY = minY > check.y ? check.y : minY;
                         found = true;
                     }
                     if (found) {
                         b.y = minY;
-                        b.height = maxY - minY;
+                        b.setHeight(maxY - minY);
                     } else {
                         /*find any block which is not a bracket to calculate the y position of bracket
                         * in case all are bracket or no block than y is 0*/
@@ -364,7 +364,7 @@ public class BlockContainer extends Block {
                         }
 
                         /*if nothing before it than use the default height of block*/
-                        b.height = setting.RECT_HEIGHT *setting.scaleTextSize(textSize);
+                        b.setHeight(setting.RECT_HEIGHT *setting.scaleTextSize(textSize));
                     }
                     if(isPowerAfterBracket(b)){
                             /*calculate the y position of power block since it depends on the right bracket before it
@@ -385,13 +385,13 @@ public class BlockContainer extends Block {
             float maxY = 0, minY = 99999;
             for (int i = index + 1; i < blocks.getChildrens().size(); i++) {
                 Block check = blocks.getChildrens().get(i);
-                maxY = maxY < check.y + check.height ? check.y + check.height : maxY;
+                maxY = maxY < check.y + check.getHeight() ? check.y + check.getHeight() : maxY;
                 minY = minY > check.y ? check.y : minY;
                 found = true;
             }
 
             if (found) {
-                b.height = maxY - minY;
+                b.setHeight(maxY - minY);
                 b.y = minY;
             }
         }

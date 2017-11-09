@@ -29,19 +29,19 @@ public class OperatorBlock extends TextBlock {
         paint.setStrokeWidth(2);
         switch (text){
             case "+":
-                c.drawLine(x + width*0.1f, y + height/2, x + width*0.9f, y + height/2, paint);
-                c.drawLine(x + width/2, y + height/2 - width*0.4f, x + width/2, y + height/2 + width*0.4f, paint);
+                c.drawLine(x + getWidth()*0.1f, y + getHeight()/2, x + getWidth()*0.9f, y + getHeight()/2, paint);
+                c.drawLine(x + getWidth()/2, y + getHeight()/2 - getWidth()*0.4f, x + getWidth()/2, y + getHeight()/2 + getWidth()*0.4f, paint);
                 break;
             case "-":
-                c.drawLine(x+offsetX+width*0.15f,offsetY+y+height/2,x+offsetX+width*0.85f,offsetY+y+height/2,paint);break;
+                c.drawLine(x+offsetX+getWidth()*0.15f,offsetY+y+getHeight()/2,x+offsetX+getWidth()*0.85f,offsetY+y+getHeight()/2,paint);break;
             case "×":
             case "*":
-                c.drawLine(x+offsetX+width*0.15f,offsetY+y+height/2-width*0.35f,x+offsetX+width*0.85f,offsetY+y+height/2+width*0.35f,paint);
-                c.drawLine(x+offsetX+width*0.85f,offsetY+y+height/2-width*0.35f,x+offsetX+width*0.15f,offsetY+y+height/2+width*0.35f,paint);
+                c.drawLine(x+offsetX+getWidth()*0.15f,offsetY+y+getHeight()/2-getWidth()*0.35f,x+offsetX+getWidth()*0.85f,offsetY+y+getHeight()/2+getWidth()*0.35f,paint);
+                c.drawLine(x+offsetX+getWidth()*0.85f,offsetY+y+getHeight()/2-getWidth()*0.35f,x+offsetX+getWidth()*0.15f,offsetY+y+getHeight()/2+getWidth()*0.35f,paint);
                 break;
             case "=":
-                c.drawLine(x+offsetX+width*0.05f,offsetY+y+height/2-width*0.27f,x+offsetX+width*0.95f,offsetY+y+height/2-width*0.27f,paint);
-                c.drawLine(x+offsetX+width*0.05f,offsetY+y+height/2+width*0.27f,x+offsetX+width*0.95f,offsetY+y+height/2+width*0.27f,paint);
+                c.drawLine(x+offsetX+getWidth()*0.05f,offsetY+y+getHeight()/2-getWidth()*0.27f,x+offsetX+getWidth()*0.95f,offsetY+y+getHeight()/2-getWidth()*0.27f,paint);
+                c.drawLine(x+offsetX+getWidth()*0.05f,offsetY+y+getHeight()/2+getWidth()*0.27f,x+offsetX+getWidth()*0.95f,offsetY+y+getHeight()/2+getWidth()*0.27f,paint);
         }
     }
 

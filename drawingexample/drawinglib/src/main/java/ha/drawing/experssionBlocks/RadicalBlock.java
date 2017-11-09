@@ -43,7 +43,7 @@ public class RadicalBlock extends Block {
         paint.setStyle(Paint.Style.FILL);
         //paint.setStrokeWidth(strokeWidth);
 
-        c.drawLine(a.x + offsetX + x, offsetY + a.y + y, offsetX + width + x, offsetY + a.y + y, paint); //A
+        c.drawLine(a.x + offsetX + x, offsetY + a.y + y, offsetX + getWidth() + x, offsetY + a.y + y, paint); //A
         c.drawLine(offsetX + a.x + x, offsetY + a.y + y, offsetX + b.x + x, offsetY + b.y + y, paint);//B
         c.drawLine(offsetX + b.x + x, offsetY + b.y + y, offsetX + this.c.x + x, offsetY + this.c.y + y, paint);  //C
         c.drawLine(offsetX + this.c.x + x, offsetY + this.c.y + y, offsetX + d.x + x, offsetY + d.y + y, paint);
@@ -68,13 +68,13 @@ public class RadicalBlock extends Block {
 
         insideRadical.measure(setting, textSize);
 
-        float newHeight = insideRadical.height * setting.ExtraPaddingTopFraction + setting.paddingTop_radical * scaling; //adding extra padding between radical and what inside it
+        float newHeight = insideRadical.getHeight() * setting.ExtraPaddingTopFraction + setting.paddingTop_radical * scaling; //adding extra padding between radical and what inside it
         setHeight(newHeight + setting.ExtraRadicalHeight * scaling, setting.maxHeight);
 
-        insideRadical.y = newHeight - insideRadical.height;
+        insideRadical.y = newHeight - insideRadical.getHeight();
 
 
-        setWidth(insideRadical.width + setting.ExtraRadicalWidth * scaling + setting.ExtraPadding_RadicalLeft * scaling);
+        setWidth(insideRadical.getWidth() + setting.ExtraRadicalWidth * scaling + setting.ExtraPadding_RadicalLeft * scaling);
         float shiftX = setting.ExtraPadding_RadicalLeft * scaling;
         insideRadical.x = a.x + shiftX;
     }
@@ -87,14 +87,14 @@ public class RadicalBlock extends Block {
         c.y = b.y - offsetFromBelow;
         d.y = c.y;
 
-        this.height = height;
+        this.setHeight(height);
     }
 
     //always setHeight must be called before
-    private void setWidth(float width) {
+    protected void setWidth(float width) {
 
         a.x = 0;
-        float offset = height * 0.2f;
+        float offset = getHeight() * 0.2f;
         b.x = a.x - offset;
         c.x = b.x - (b.y - c.y) * 0.25f;
         d.x = c.x - offsetFromBelow * 0.1f;
@@ -102,7 +102,7 @@ public class RadicalBlock extends Block {
         a.x -= d.x;
         b.x -= d.x;
         c.x -= d.x;
-        this.width = width - d.x;
+        this.setWidth(width - d.x);
         d.x -= d.x;
     }
 }

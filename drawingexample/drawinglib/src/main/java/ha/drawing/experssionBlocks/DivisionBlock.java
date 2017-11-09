@@ -36,10 +36,10 @@ public class DivisionBlock extends Block {
         denominator.measure(setting, textSize);
 
         // Calculate height
-        float height = numerator.height + divisionLineHeight + this.denominator.height;
+        float height = numerator.getHeight() + divisionLineHeight + this.denominator.getHeight();
 
         // Calculate width based on the maximum width of the numerator and denominator
-        float width = this.numerator.width < this.denominator.width ? this.denominator.width : this.numerator.width;
+        float width = this.numerator.getWidth() < this.denominator.getWidth() ? this.denominator.getWidth() : this.numerator.getWidth();
 
         //
         setMeasurement(width, height);
@@ -49,9 +49,9 @@ public class DivisionBlock extends Block {
     protected void onLayout(Setting setting, float textSize, float x, float y) {
 
         // Calculate numerator and denominator position.
-        float numCenterX = x + this.width/2 - numerator.width/2;
-        float denCenterX = x + this.width/2 - denominator.width/2;
-        float denominatorY = y + numerator.height + divisionLineHeight;
+        float numCenterX = x + this.getWidth()/2 - numerator.getWidth()/2;
+        float denCenterX = x + this.getWidth()/2 - denominator.getWidth()/2;
+        float denominatorY = y + numerator.getHeight() + divisionLineHeight;
 
         // Set numerator and denominator position.
         numerator.layout(setting, textSize, numCenterX, y);
@@ -66,15 +66,15 @@ public class DivisionBlock extends Block {
         // Draw the division line
         c.drawRect(
                 x,
-                y + numerator.height,
-                x + width,
-                y + numerator.height + divisionLineHeight,
+                y + numerator.getHeight(),
+                x + getWidth(),
+                y + numerator.getHeight() + divisionLineHeight,
                 paint);
     }
 
     @Override
     public float getBaseLineHeight() {
-        return numerator.height + divisionLineHeight/2;
+        return numerator.getHeight() + divisionLineHeight/2;
     }
 
     @Override

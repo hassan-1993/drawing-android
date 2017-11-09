@@ -22,12 +22,12 @@ public class EmptyBlock extends Block {
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         paint.setStyle(Paint.Style.STROKE);
-        c.drawRect(offsetX+x,offsetY+y,offsetX+x+width,offsetY+y+height,paint);
+        c.drawRect(offsetX+x,offsetY+y,offsetX+x+getWidth(),offsetY+y+getHeight(),paint);
     }
 
     @Override
     public float getBaseLineHeight() {
-        return height/2;
+        return getHeight()/2;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class EmptyBlock extends Block {
     @Override
     protected void measure(Setting setting, float textSize) {
         float scale=textSize/setting.DefaultTextSize;
-        this.width=setting.TEXT_SPACING*2*scale+setting.Rect_Min_Width*scale;
-        this.height=setting.RECT_HEIGHT *scale;
+        this.setWidth(setting.TEXT_SPACING*2*scale+setting.Rect_Min_Width*scale);
+        this.setHeight(setting.RECT_HEIGHT *scale);
     }
 }

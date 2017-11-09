@@ -28,12 +28,12 @@ public class TextBlock extends Block {
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         paint.setTextSize(textSize);
-        c.drawText(text, x, y+height, paint);
+        c.drawText(text, x, y+getHeight(), paint);
     }
 
     @Override
     public float getBaseLineHeight() {
-        return height/2;
+        return getHeight()/2;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TextBlock extends Block {
     protected void measure(Setting setting, float textSize) {
         float height = setting.RECT_HEIGHT * textSize / setting.DefaultTextSize;
         float width = getBound2(setting, textSize, text);
-        proportion = -setting.maxbottom * textSize / setting.DefaultTextSize + this.height;
+        proportion = -setting.maxbottom * textSize / setting.DefaultTextSize + this.getHeight();
 
         //
         this.textSize = textSize;

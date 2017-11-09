@@ -30,13 +30,13 @@ public class PowerBlock extends Block {
 
     @Override
     public float getBaseLineHeight() {
-        return before().getBaseLineHeight() + powerBlock.height;
+        return before().getBaseLineHeight() + powerBlock.getHeight();
     }
 
     @Override
     protected void measure(Setting setting, float textSize) {
         powerBlock.measure(setting, textSize);
-        setMeasurement(powerBlock.width, powerBlock.height + before().height);
+        setMeasurement(powerBlock.getWidth(), powerBlock.getHeight() + before().getHeight());
     }
 
     @Override

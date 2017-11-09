@@ -18,8 +18,8 @@ public abstract class Block {
 
     public float x;
     public float y;
-    public float width;
-    public float height;
+    private float width;
+    private float height;
 
     private Integer color = null;
     protected float lineHeight = 10;
@@ -49,6 +49,21 @@ public abstract class Block {
         onLayout(setting, textSize, x, y);
     }
 
+    public float getWidth(){
+        return width;
+    }
+
+    public float getHeight(){
+        return height;
+    }
+
+    protected void setWidth(float width){
+        this.width = width;
+    }
+
+    protected void setHeight(float height){
+        this.height = height;
+    }
     /**
      * Derived classes with children should override
      * this method and call layout on each of
@@ -70,7 +85,7 @@ public abstract class Block {
         onDraw(c,paint, offsetX, offsetY);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(tempColor);
-        drawBox(c, new Paint());
+//        drawBox(c, new Paint());
 //        drawAntiBaseLine(c, new Paint());
     }
 

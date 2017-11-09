@@ -35,8 +35,8 @@ public class RightBracketBlock extends BracketBlock {
                 if(block.y < minY)
                     minY = block.y;
 
-                if(block.y + block.height > maxY)
-                    maxY = block.y + block.height;
+                if(block.y + block.getHeight() > maxY)
+                    maxY = block.y + block.getHeight();
             }
 
             minHeight = maxY-minY;
