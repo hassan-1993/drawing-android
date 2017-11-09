@@ -14,20 +14,19 @@ import ha.drawing.Setting;
  */
 public class DivisionBlock extends Block {
 
-    private float divisionLineX;
-    private float divisionLineY;
-
-    private float strokeHeight;
+    private float divisionLineHeight;
 
     protected BlockContainer numerator;
     protected BlockContainer denominator;
 
     public DivisionBlock(){
-        this.numerator = new BlockContainer();
-        this.denominator = new BlockContainer();
+        numerator = new BlockContainer();
+        denominator = new BlockContainer();
 
-        this.numerator.setParent(this);
-        this.denominator.setParent(this);
+        divisionLineHeight = 2;
+
+        numerator.setParent(this);
+        denominator.setParent(this);
     }
 
     @Override
@@ -36,21 +35,11 @@ public class DivisionBlock extends Block {
         numerator.measure(setting, textSize);
         denominator.measure(setting, textSize);
 
-        //
-        float scale = textSize / setting.DefaultTextSize;
-        lineHeight = scale*setting.TEXT_SPACING;
-        strokeHeight = 2;
+        // Calculate height
+        float height = numerator.height + divisionLineHeight + this.denominator.height;
 
-        // Calculate width and height.
-        float shift = setting.block_Division_Margin * scale;
-        float height = numerator.height + shift + this.denominator.height;
+        // Calculate width based on the maximum width of the numerator and denominator
         float width = this.numerator.width < this.denominator.width ? this.denominator.width : this.numerator.width;
-
-        // Add extra width factor
-        width *= setting.DivisonWidthFactor;
-
-        // Add extra division width default offset
-        width += setting.DivisionOffsetWidth * scale * 2;
 
         //
         setMeasurement(width, height);
@@ -59,40 +48,33 @@ public class DivisionBlock extends Block {
     @Override
     protected void onLayout(Setting setting, float textSize, float x, float y) {
 
-        float scale = textSize / setting.DefaultTextSize;
-        float shift = setting.block_Division_Margin * scale;
-
-        // Set division line position.
-        this.divisionLineX = 0;
-        this.divisionLineY = this.numerator.height + shift;
-
         // Calculate numerator and denominator position.
-        float numCenterX = this.width/2 - numerator.width/2;
-        float denCenterX = this.width/2 - denominator.width/2;
-        float denominatorY = this.divisionLineY + shift + this.strokeHeight;
+        float numCenterX = x + this.width/2 - numerator.width/2;
+        float denCenterX = x + this.width/2 - denominator.width/2;
+        float denominatorY = y + numerator.height + divisionLineHeight;
 
         // Set numerator and denominator position.
-        numerator.layout(setting, textSize, numCenterX, 0);
+        numerator.layout(setting, textSize, numCenterX, y);
         denominator.layout(setting, textSize, denCenterX, denominatorY);
     }
 
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
-        numerator.draw(c,paint,offsetX+x,offsetY+y);
-        denominator.draw(c,paint,offsetX+x,offsetY+y);
+        numerator.draw(c, paint, offsetX + x, offsetY + y);
+        denominator.draw(c, paint, offsetX + x, offsetY + y);
 
         // Draw the division line
         c.drawRect(
-                divisionLineX + offsetX + x,
-                divisionLineY + offsetY + y,
-                divisionLineX + width + offsetX + x,
-                divisionLineY + strokeHeight + offsetY + y,
+                x,
+                y + numerator.height,
+                x + width,
+                y + numerator.height + divisionLineHeight,
                 paint);
     }
 
     @Override
-    public float getBaseLine() {
-        return divisionLineY + strokeHeight/2;
+    public float getBaseLineHeight() {
+        return numerator.height + divisionLineHeight/2;
     }
 
     @Override

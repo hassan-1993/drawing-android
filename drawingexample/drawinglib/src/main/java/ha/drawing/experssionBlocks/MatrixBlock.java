@@ -55,8 +55,8 @@ public class MatrixBlock extends Block {
     }
 
     @Override
-    public float getBaseLine() {
-        return (height) / 2;
+    public float getBaseLineHeight() {
+        return height / 2;
     }
 
     @Override

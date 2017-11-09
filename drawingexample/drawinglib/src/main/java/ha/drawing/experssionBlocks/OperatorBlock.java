@@ -29,8 +29,8 @@ public class OperatorBlock extends TextBlock {
         paint.setStrokeWidth(2);
         switch (text){
             case "+":
-                c.drawLine(x+offsetX+width*0.1f,offsetY+y+height/2,x+offsetX+width*0.9f,offsetY+y+height/2,paint);
-                c.drawLine(x+offsetX+width/2,offsetY+y+height/2-width*0.4f,x+offsetX+width/2,offsetY+y+height/2+width*0.4f,paint);
+                c.drawLine(x + width*0.1f, y + height/2, x + width*0.9f, y + height/2, paint);
+                c.drawLine(x + width/2, y + height/2 - width*0.4f, x + width/2, y + height/2 + width*0.4f, paint);
                 break;
             case "-":
                 c.drawLine(x+offsetX+width*0.15f,offsetY+y+height/2,x+offsetX+width*0.85f,offsetY+y+height/2,paint);break;

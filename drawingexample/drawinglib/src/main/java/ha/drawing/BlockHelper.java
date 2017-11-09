@@ -48,7 +48,7 @@ public class BlockHelper {
 
     private void buildBlocks(Expression tree, BlockContainer block) {
         TokenID id = tree.getId();
-        boolean addBracket = addBracket(tree);
+        boolean addBracket = false; //addBracket(tree);
 
         if (addBracket) {
             block.addChild(BlockFactory.leftBracket());
@@ -173,11 +173,6 @@ public class BlockHelper {
         parentBlock.build(setting, textSize);
         return parentBlock;
     }
-
-
-
-
-
 
     public Setting getSetting() {
         return setting;

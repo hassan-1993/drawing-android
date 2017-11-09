@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 import ha.drawing.Setting;
 
 
@@ -16,12 +15,6 @@ import ha.drawing.Setting;
  */
 public class BlockContainer extends Block {
 
-    /**
-     * Any Block which is not instance of the parentBlock and extends Block then its
-     * parent must be a parentBlock
-     */
-
-    private Block blockHolder;
     public boolean root = false;
 
     /**
@@ -30,10 +23,6 @@ public class BlockContainer extends Block {
      * and operatorBlock are set from inside
      */
     protected List<Block> children = new ArrayList<>();
-
-    public BlockContainer() {
-
-    }
 
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
@@ -44,8 +33,13 @@ public class BlockContainer extends Block {
     }
 
     @Override
-    public float getBaseLine() {
-        return getChild(0).y + getChild(0).getBaseLine();
+    public float getBaseLineHeight() {
+        float baseLine = 0;
+        for(Block block : children){
+            if(block.getBaseLineHeight() > baseLine)
+                baseLine = block.getBaseLineHeight();
+        }
+        return baseLine;
     }
 
     @Override
@@ -146,19 +140,21 @@ public class BlockContainer extends Block {
         float width = 0;
         float height = 0;
 
-        this.rebuild = true;
+        // Measure children at first so that in the next step we can use
+        // the base line.
         for (Block child : children) {
-            if (child.isReBuild())
-                child.setReBuild(true);
-
-            //
-            child.setParent(this);
             child.measure(setting, textSize);
+        }
 
-            //
+        // Calculate width and height.
+        float baseLine = getBaseLineHeight();
+        for (Block child : children) {
             width += child.width;
-            if(child.height > height)
-                height = child.height;
+
+            // Calculate Height by finding the largest height of the children
+            float blockHeight = child.height + baseLine - child.getBaseLineHeight();
+            if(blockHeight > height)
+                height = blockHeight;
         }
 
         //
@@ -167,18 +163,28 @@ public class BlockContainer extends Block {
 
     @Override
     protected void onLayout(Setting setting, float textSize, float x, float y) {
-        float xx = x;
+        float maxHeight = 0;
         for(Block block : children){
-            block.layout(setting, textSize, xx, y);
+            if(block.height > maxHeight)
+                maxHeight = block.height;
+        }
+
+        //
+        float xx = x;
+        float baseLine = getBaseLineHeight();
+        for(Block block : children){
+            float blockBaseLine = block.getBaseLineHeight();
+            float posY = y + baseLine - blockBaseLine;
+            block.layout(setting, textSize, xx, posY);
             xx += block.width;
         }
 
 //        if (children.size() != 0) {
 //            children.get(0).y = 0;
-//            float baseLine = children.get(0).getBaseLine();
+//            float baseLine = children.get(0).getBaseLineHeight();
 //            for (int i = 1; i < children.size(); i++) {
 //                Block child = children.get(i);
-//                float baseline1 = children.get(i).getBaseLine();
+//                float baseline1 = children.get(i).getBaseLineHeight();
 //                if(child.before() instanceof BracketBlock && child.getId()==BlockID.POWER) {
 //                        /*in case of power and before it is a bracket
 //                        * the bracket is not build yet so we can not use it to calculate the baseline of power yet*/
@@ -325,7 +331,7 @@ public class BlockContainer extends Block {
                     if(isPowerAfterBracket(b)){
                         /*calculate the y position of power block since it depends on the right bracket before it
                          * */
-                        b.next().y=b.y+b.getBaseLine()-b.next().getBaseLine();
+                        b.next().y=b.y+b.getBaseLineHeight()-b.next().getBaseLineHeight();
                     }
 
                 } else {
@@ -350,7 +356,7 @@ public class BlockContainer extends Block {
                         for (int e = i+1; e <blocks.getChildCount(); e++) {
                             Block check = blocks.getChildrens().get(e);
                             if (check.getId() != BlockID.LEFT_BRACKET && check.getId() != BlockID.RIGHT_BRACKET && check.getId()!=BlockID.POWER) {
-                               b.y=check.y+check.getBaseLine()-b.getBaseLine();
+                               b.y=check.y+check.getBaseLineHeight()-b.getBaseLineHeight();
                                 break;
                             }else if(e==blocks.getChildCount()-1){
                                 b.y = 0;
@@ -363,7 +369,7 @@ public class BlockContainer extends Block {
                     if(isPowerAfterBracket(b)){
                             /*calculate the y position of power block since it depends on the right bracket before it
                             * */
-                        b.next().y=b.y+b.getBaseLine()-b.next().getBaseLine();
+                        b.next().y=b.y+b.getBaseLineHeight()-b.next().getBaseLineHeight();
                     }
                 }
 

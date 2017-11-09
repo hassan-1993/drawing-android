@@ -4,8 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
-import com.example.scanner.TokenID;
-
 import ha.drawing.Setting;
 
 
@@ -55,8 +53,8 @@ public class RadicalBlock extends Block {
 
     // FIXME: 1/22/2017 the base line of radical is wrong should be with respect to its children
     @Override
-    public float getBaseLine() {
-        return this.insideRadical.getChild(0).getBaseLine() + this.insideRadical.getChild(0).y + this.insideRadical.y;
+    public float getBaseLineHeight() {
+        return this.insideRadical.getChild(0).getBaseLineHeight() + this.insideRadical.getChild(0).y + this.insideRadical.y;
     }
 
     @Override

@@ -16,7 +16,7 @@ import ha.drawing.experssionBlocks.BlockContainer;
 
 public class DrawingView extends View{
 
-    int width=500,height=500;
+    int width=1000,height=1000;
     BlockContainer block;
 
     public DrawingView(Context context) {
@@ -26,7 +26,9 @@ public class DrawingView extends View{
     public DrawingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        block = new BlockHelper().buildBlocks("2+3");
+
+//        block = new BlockHelper().buildBlocks("2");
+        block = new BlockHelper().buildBlocks("(((2/15321)+(((3/2+(3/2)^(5+3/2+(3/2)^(5)+(3/2)^5)+(3/2)^5)^5)/((2^3^4^(5/6))+2*x+(4/5))))/(2^5))^(5/2)");
     }
 
 

@@ -54,7 +54,7 @@ public class BaseBlock extends Block {
     }
 
     @Override
-    public float getBaseLine() {
+    public float getBaseLineHeight() {
         return this.log.height*0.66f;
     }
 

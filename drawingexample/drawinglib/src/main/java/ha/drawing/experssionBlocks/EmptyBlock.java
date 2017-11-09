@@ -26,7 +26,7 @@ public class EmptyBlock extends Block {
     }
 
     @Override
-    public float getBaseLine() {
+    public float getBaseLineHeight() {
         return height/2;
     }
 

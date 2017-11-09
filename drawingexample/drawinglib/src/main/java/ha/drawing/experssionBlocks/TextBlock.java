@@ -28,11 +28,11 @@ public class TextBlock extends Block {
     @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         paint.setTextSize(textSize);
-        c.drawText(text, x, y+proportion+height, paint);
+        c.drawText(text, x, y+height, paint);
     }
 
     @Override
-    public float getBaseLine() {
+    public float getBaseLineHeight() {
         return height/2;
     }
 

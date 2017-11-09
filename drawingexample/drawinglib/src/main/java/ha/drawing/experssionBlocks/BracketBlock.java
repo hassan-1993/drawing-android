@@ -5,6 +5,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 
+import java.util.ArrayList;
+
 import ha.drawing.Setting;
 
 
@@ -33,25 +35,20 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
-    protected void onLayout(Setting setting, float textSize, float x, float y) {
-        super.layout(setting, textSize, x, y);
-    }
-
-    @Override
     public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
         paint.setStrokeWidth(2);
 
         switch (text.charAt(0)) {
             case ')':
             {
-                RectF rectF = new RectF(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height);
+                RectF rectF = new RectF(x, y, x + width, y + height);
                 paint.setStyle(Paint.Style.STROKE);
                 c.drawArc(rectF, 270, 180, false, paint);
                 break;
             }
             case '(':
             {
-                RectF rectF = new RectF(x + offsetX, y + offsetY, x + offsetX + width, y + offsetY + height);
+                RectF rectF = new RectF(x, y, x + width, y + height);
                 paint.setStyle(Paint.Style.STROKE);
                 c.drawArc(rectF, 90, 180, false, paint);
                 break;
@@ -71,5 +68,52 @@ public abstract class BracketBlock extends TextBlock {
                 break;
             }
         }
+    }
+
+    @Override
+    public float getBaseLineHeight() {
+        float baseLine = 0;
+        Block leftBracket = getRelatedBracket();
+        ArrayList<Block> blocksInBetween = getBlocksInBetween(leftBracket, this);
+
+        //
+        for(Block block : blocksInBetween){
+            if(block.getBaseLineHeight() > baseLine)
+                baseLine = block.getBaseLineHeight();
+        }
+
+        //
+        return baseLine;
+    }
+
+    protected Block getRelatedBracket(){
+
+        int bracketCounter = 1;
+        Block relatedBracket = null;
+        Block bracketBlock = this;
+        if(bracketBlock.getId() == BlockID.RIGHT_BRACKET){
+            relatedBracket = bracketBlock;
+            while(relatedBracket != null && bracketCounter > 0){
+                relatedBracket = relatedBracket.before();
+
+                if(relatedBracket.getId() == BlockID.LEFT_BRACKET)
+                    bracketCounter--;
+                else if(relatedBracket.getId() == BlockID.RIGHT_BRACKET)
+                    bracketCounter++;
+            }
+        }
+
+        else if(bracketBlock.getId() == BlockID.LEFT_BRACKET){
+            relatedBracket = bracketBlock;
+            while(relatedBracket != null && bracketCounter > 0){
+                relatedBracket = relatedBracket.next();
+                if(relatedBracket.getId() == BlockID.LEFT_BRACKET)
+                    bracketCounter++;
+                else if(relatedBracket.getId() == BlockID.RIGHT_BRACKET)
+                    bracketCounter--;
+            }
+        }
+
+        return relatedBracket;
     }
 }
