@@ -25,7 +25,7 @@ public class BlockContainer extends Block {
     protected List<Block> children = new ArrayList<>();
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         for (Block block : children) {
             paint.setStyle(Paint.Style.FILL);
             block.draw(c, paint, offsetX, offsetY);
@@ -33,7 +33,7 @@ public class BlockContainer extends Block {
     }
 
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         float baseLine = 0;
         for(Block block : children){
             if(block.getBaseLineHeight() > baseLine)
@@ -147,7 +147,7 @@ public class BlockContainer extends Block {
         }
 
         // Calculate width and height.
-        float baseLine = getBaseLineHeight();
+        float baseLine = getBaseLineHeight() - getMarginTop();
         for (Block child : children) {
             width += child.getWidth();
 
@@ -171,7 +171,7 @@ public class BlockContainer extends Block {
 
         //
         float xx = x;
-        float baseLine = getBaseLineHeight();
+        float baseLine = getBaseLineHeight() - getMarginTop();
         for(Block block : children){
             float blockBaseLine = block.getBaseLineHeight();
             float posY = y + baseLine - blockBaseLine;

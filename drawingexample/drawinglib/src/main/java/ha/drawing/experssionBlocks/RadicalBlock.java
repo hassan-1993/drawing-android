@@ -38,7 +38,7 @@ public class RadicalBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         //√
         paint.setStyle(Paint.Style.FILL);
         //paint.setStrokeWidth(strokeWidth);
@@ -53,7 +53,7 @@ public class RadicalBlock extends Block {
 
     // FIXME: 1/22/2017 the base line of radical is wrong should be with respect to its children
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         return this.insideRadical.getChild(0).getBaseLineHeight() + this.insideRadical.getChild(0).y + this.insideRadical.y;
     }
 

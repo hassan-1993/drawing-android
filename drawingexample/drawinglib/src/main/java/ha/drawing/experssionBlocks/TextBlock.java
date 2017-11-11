@@ -26,14 +26,14 @@ public class TextBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         paint.setTextSize(textSize);
-        c.drawText(text, x, y+getHeight(), paint);
+        c.drawText(text, x, y+getInnerHeight(), paint);
     }
 
     @Override
-    public float getBaseLineHeight() {
-        return getHeight()/2;
+    public float measureBaseLine() {
+        return getInnerHeight()/2;
     }
 
     @Override

@@ -3,8 +3,6 @@ package ha.drawing.experssionBlocks;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
 
 import java.util.ArrayList;
 
@@ -20,6 +18,50 @@ public abstract class Block {
     public float y;
     private float width;
     private float height;
+
+    private float marginLeft;
+    private float marginTop;
+    private float marginRight;
+    private float marginBottom;
+
+    public void setMargin(float margin){
+        this.marginLeft = margin;
+        this.marginTop = margin;
+        this.marginRight = margin;
+        this.marginBottom = margin;
+    }
+
+    public void setMarginLeft(float margin){
+        marginLeft = margin;
+    }
+
+    public void setMarginTop(float margin){
+        marginTop = margin;
+    }
+
+    public void setMarginRight(float margin){
+        marginRight = margin;
+    }
+
+    public void setMarginBottom(float margin){
+        marginBottom = margin;
+    }
+
+    public float getMarginLeft(){
+        return marginLeft;
+    }
+
+    public float getMarginTop(){
+        return marginTop;
+    }
+
+    public float getMarginRight(){
+        return marginRight;
+    }
+
+    public float getMarginBottom(){
+        return marginBottom;
+    }
 
     private Integer color = null;
     protected float lineHeight = 10;
@@ -38,23 +80,36 @@ public abstract class Block {
     }
 
     public abstract BlockID getId();
-    protected abstract void onDraw(Canvas c, Paint paint, float offsetX, float offsetY);
+    protected abstract void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY);
     protected abstract void measure(Setting setting, float textSize);
-    public abstract float getBaseLineHeight();
+    public abstract float measureBaseLine();
+
+    public final float getBaseLineHeight(){
+        return measureBaseLine() + marginTop;
+    }
+
     public abstract String show();
 
     protected final void layout(Setting setting, float textSize, float x, float y) {
         this.x = x;
         this.y = y;
-        onLayout(setting, textSize, x, y);
+        onLayout(setting, textSize, x + marginLeft, y + marginTop);
     }
 
     public float getWidth(){
-        return width;
+        return marginLeft + width + marginRight;
     }
 
     public float getHeight(){
+        return marginTop + height + marginBottom;
+    }
+
+    public float getInnerHeight(){
         return height;
+    }
+
+    public float getInnerWidth(){
+        return width;
     }
 
     protected void setWidth(float width){
@@ -82,7 +137,7 @@ public abstract class Block {
         if(color!=null){
             paint.setColor(color);
         }
-        onDraw(c,paint, offsetX, offsetY);
+        onDraw(c,paint, x+ marginLeft, y+ marginTop, offsetX, offsetY);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(tempColor);
 //        drawBox(c, new Paint());
@@ -90,30 +145,26 @@ public abstract class Block {
     }
 
     public void drawBox(Canvas c, Paint paint){
-        paint.setColor(Color.RED);
         paint.setStrokeWidth(3);
         paint.setStyle(Paint.Style.STROKE);
-        c.drawRect(x, y, x+width, y+height, paint);
-    }
 
-    public void drawBaseLine(Canvas c, Paint paint){
+        // Draw base line.
         paint.setColor(Color.GREEN);
-        paint.setStrokeWidth(3);
-        paint.setStyle(Paint.Style.STROKE);
-        c.drawLine(x, y+getBaseLineHeight(), x+width, y+getBaseLineHeight(), paint);
-    }
+        c.drawLine(x+ marginLeft, y+getBaseLineHeight(), x+ marginLeft +width, y+getBaseLineHeight(), paint);
 
-    public void drawAntiBaseLine(Canvas c, Paint paint){
+        // Draw Box
         paint.setColor(Color.RED);
-        paint.setStrokeWidth(3);
-        paint.setStyle(Paint.Style.STROKE);
-        c.drawLine(x+width/2, y+getBaseLineHeight(), x+width/2, y+(height), paint);
+        c.drawRect(x, y, x+ marginLeft +width+ marginRight, y+ marginTop +height+ marginBottom, paint);
+
+        // Draw Inner Box
+        paint.setColor(Color.BLUE);
+        c.drawRect(x+ marginLeft, y+ marginTop, x+ marginLeft +width, y+ marginTop +height, paint);
     }
 
     public void build(Setting setting, float textSize){
         this.strokeWidth= (int) (setting.Defualtstroke*textSize/setting.DefaultTextSize);
         measure(setting, textSize);
-        layout(setting, textSize, x, y);
+        layout(setting, textSize, x+ marginLeft, y+ marginTop);
     }
 
     public void setBaseLine(float baseLine){

@@ -48,13 +48,13 @@ public class BaseBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         log.draw(c, paint, offsetX, offsetY);
         base.draw(c, paint, offsetX, offsetY);
     }
 
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         return this.log.getHeight()*0.66f;
     }
 

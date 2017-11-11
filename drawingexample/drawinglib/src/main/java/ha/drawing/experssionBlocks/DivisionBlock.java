@@ -59,7 +59,7 @@ public class DivisionBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         numerator.draw(c, paint, offsetX + x, offsetY + y);
         denominator.draw(c, paint, offsetX + x, offsetY + y);
 
@@ -73,7 +73,7 @@ public class DivisionBlock extends Block {
     }
 
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         return numerator.getHeight() + divisionLineHeight/2;
     }
 

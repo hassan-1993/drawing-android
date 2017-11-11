@@ -35,7 +35,7 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         paint.setStrokeWidth(2);
 
         switch (text.charAt(0)) {
@@ -71,7 +71,7 @@ public abstract class BracketBlock extends TextBlock {
     }
 
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         float baseLine = 0;
         Block leftBracket = getRelatedBracket();
         ArrayList<Block> blocksInBetween = getBlocksInBetween(leftBracket, this);

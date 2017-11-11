@@ -37,7 +37,7 @@ public class MatrixBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         for (BlockContainer row : rows)
             row.draw(c, paint, offsetX, offsetY);
 
@@ -55,7 +55,7 @@ public class MatrixBlock extends Block {
     }
 
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         return getHeight() / 2;
     }
 

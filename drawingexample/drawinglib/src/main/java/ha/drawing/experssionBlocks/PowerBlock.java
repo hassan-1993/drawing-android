@@ -24,12 +24,12 @@ public class PowerBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         powerBlock.draw(c, paint, x+offsetX, y+offsetY);
     }
 
     @Override
-    public float getBaseLineHeight() {
+    public float measureBaseLine() {
         return before().getBaseLineHeight() + powerBlock.getHeight();
     }
 

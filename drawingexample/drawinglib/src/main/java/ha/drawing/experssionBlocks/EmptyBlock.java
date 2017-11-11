@@ -20,14 +20,14 @@ public class EmptyBlock extends Block {
     }
 
     @Override
-    public void onDraw(Canvas c, Paint paint, float offsetX, float offsetY) {
+    public void onDraw(Canvas c, Paint paint, float x, float y, float offsetX, float offsetY) {
         paint.setStyle(Paint.Style.STROKE);
         c.drawRect(offsetX+x,offsetY+y,offsetX+x+getWidth(),offsetY+y+getHeight(),paint);
     }
 
     @Override
-    public float getBaseLineHeight() {
-        return getHeight()/2;
+    public float measureBaseLine() {
+        return getInnerHeight()/2;
     }
 
     @Override
