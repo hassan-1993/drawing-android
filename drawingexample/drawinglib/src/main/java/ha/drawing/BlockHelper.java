@@ -16,10 +16,12 @@ import ha.drawing.experssionBlocks.BlockContainer;
 import ha.drawing.experssionBlocks.BracketBlock;
 import ha.drawing.experssionBlocks.DerivativeBlock;
 import ha.drawing.experssionBlocks.DivisionBlock;
+import ha.drawing.experssionBlocks.LeftBracketBlock;
 import ha.drawing.experssionBlocks.MatrixBlock;
 import ha.drawing.experssionBlocks.OperatorBlock;
 import ha.drawing.experssionBlocks.PowerBlock;
 import ha.drawing.experssionBlocks.RadicalBlock;
+import ha.drawing.experssionBlocks.RightBracketBlock;
 import ha.drawing.experssionBlocks.TextBlock;
 
 
@@ -52,22 +54,22 @@ public class BlockHelper {
             boolean addBracket = addBracket(tree);
 
             if (addBracket) {
-                block.addChild(BlockFactory.leftBracket());
+                block.addChild(new LeftBracketBlock());
             }
 
             switch (id) {
                 case BRACKET:
-                    block.addChild(BlockFactory.leftBracket());
+                    block.addChild(new LeftBracketBlock());
                     buildBlocks(tree.getChild(0),block);
-                    block.addChild(BlockFactory.rightBracket());
+                    block.addChild(new RightBracketBlock());
                     break;
                 case LOG:
                     BaseBlock baseBlock = new BaseBlock("log");
                     buildBlocks(tree.getChild(0), baseBlock.getBase());
                     block.addChild(baseBlock);
-                    block.addChild(BlockFactory.leftBracket());
+                    block.addChild(new LeftBracketBlock());
                     buildBlocks(tree.getChild(1), block);
-                    block.addChild(new BracketBlock(")", TokenID.RIGHT_BRACKET));
+                    block.addChild(new RightBracketBlock());
                     break;
                 case ADDITION:
                 case SUBTRACTION:
@@ -95,9 +97,9 @@ public class BlockHelper {
                 case DERIVE:
                     DerivativeBlock derivativeBlock = new DerivativeBlock(tree.getChild(0).getSequence().charAt(0));
                     block.addChild(derivativeBlock);
-                    block.addChild(new BracketBlock("(", TokenID.LEFT_BRACKET));
+                    block.addChild(new LeftBracketBlock());
                     buildBlocks(tree.getChild(1), block);
-                    block.addChild(new BracketBlock(")", TokenID.RIGHT_BRACKET));
+                    block.addChild(new RightBracketBlock());
                     break;
                 case DIVISION:
                 case FRACTION:
@@ -111,14 +113,14 @@ public class BlockHelper {
                         baseBlock = new BaseBlock("log");
                         buildBlocks(tree.getChild(0), baseBlock.getBase());
                         block.addChild(baseBlock);
-                        block.addChild(BlockFactory.leftBracket());
+                        block.addChild(new LeftBracketBlock());
                         buildBlocks(tree.getChild(1), block);
-                        block.addChild(new BracketBlock(")", TokenID.RIGHT_BRACKET));
+                        block.addChild(new RightBracketBlock());
                     } else {
                         block.addChild(new TextBlock(tree.getSequence()));
-                        block.addChild(new BracketBlock("(", TokenID.LEFT_BRACKET));
+                        block.addChild(new LeftBracketBlock());
                         buildBlocks(tree.getChild(0), block);
-                        block.addChild(new BracketBlock(")", TokenID.RIGHT_BRACKET));
+                        block.addChild(new RightBracketBlock());
                     }
                     break;
                 case EXPONENTIAL:
@@ -157,7 +159,7 @@ public class BlockHelper {
             }
 
             if (addBracket) {
-                block.addChild(new BracketBlock(")", TokenID.RIGHT_BRACKET));
+                block.addChild(new RightBracketBlock());
             }
 
 

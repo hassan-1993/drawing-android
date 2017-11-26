@@ -14,9 +14,9 @@ import ha.drawing.Setting;
  */
 public class TextBlock extends Block {
 
-    private String text;
+    protected String text;
+    protected float textSize;
 
-    public float textsize;
 
 
     private float proportion;
@@ -38,7 +38,7 @@ public class TextBlock extends Block {
 
     @Override
     public void drawer(Canvas c, Paint paint, float offsetX, float offsetY) {
-        paint.setTextSize(textsize);
+        paint.setTextSize(textSize);
         //drawY=y+height;
         c.drawText(text,x+offsetX-left,y+offsetY+proportion,paint);
 
@@ -51,7 +51,7 @@ public class TextBlock extends Block {
     @Override
     public float getBaseLine() {
 
-        return height/2;
+        return getHeight()/2;
     }
 
 
@@ -64,17 +64,21 @@ public class TextBlock extends Block {
 
     @Override
     protected void builder(Setting setting, Paint paint, float textSize) {
-        this.textsize=textSize;
-        Rect bound=getBound(paint,textSize,text);
-        this.height=setting.Rect_Height* textsize / setting.DefaultTextSize;
-        this.left=bound.left;
-        this.width=getBound2(setting,textSize,text);
-        proportion = -setting.maxbottom * textsize / setting.DefaultTextSize+this.height;
+        this.left=getBound(paint,textSize,text).left;
 
+        float height = setting.RECT_HEIGHT * textSize / setting.DefaultTextSize;
+        float width = getBound2(setting, textSize, text);
+        proportion = -setting.scale(setting.maxbottom,textSize) + height;
+
+        //
+        this.textSize = textSize;
+        setMeasurement(width, height);
 }
 
 
+
+
     public float getTextsize(){
-        return this.textsize;
+        return this.textSize;
     }
 }

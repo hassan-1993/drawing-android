@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 import ha.drawing.Setting;
 import ha.drawing.experssionBlocks.util.BracketBuilder;
 
@@ -65,7 +64,7 @@ public class BlockContainer extends Block {
 
         for (int i = 0; i < getChildrens().size(); i++) {
             Block a = getChildrens().get(i);
-            if (a instanceof BaseBlock || a instanceof DerivativeBlock ) {
+            if (a instanceof BaseBlock || a instanceof DerivativeBlock) {
                 List<Block> v = findV(children, i);
                 equation += getSpecialEquation(a, findV(children, i));
                 i += v.size();
@@ -146,22 +145,22 @@ public class BlockContainer extends Block {
     }
 
 
-
     @Override
     protected void builder(Setting setting, Paint paint, float textSize) {
 
-        {
-            /**********building the width and height of all childrens************************/
-            for (Block child : children) {
-                child.x = child.y = child.height = 0;
-                child.setParent(this);
-                child.build(setting, paint, textSize);
-            }
-            /***********************************************************************************/
+        for (Block child : children) {
+            child.build(setting, paint, textSize);
         }
-        calculateYPosition();
-        BracketBuilder.buildBracket(this,setting,textSize,paint);
-        calculateXPosition(setting,textSize);
+
+        //calculate y positions
+        float baseLine = children.get(0).getBaseLine();
+        for (Block child : children) {
+            child.y = baseLine - child.getBaseLine();
+        }
+
+        BracketBuilder.buildBracket(this, setting, textSize, paint);
+
+        calculateXPosition(setting, textSize);
         calculateContainerHeight();
         calculateContainerWidth();
 
@@ -193,14 +192,13 @@ public class BlockContainer extends Block {
      * calculate height of the block container
      * PS:note that all it will calculate the height from y position zero
      * so all blocks must have positive y position
-     *
      */
-    private void calculateContainerHeight(){
+    private void calculateContainerHeight() {
         shiftAboveZero();
         float maxHeight = 0;
         /*get max height */
         for (Block child : children) {
-           float y=child.y>=0?child.y:0;
+            float y = child.y >= 0 ? child.y : 0;
             maxHeight = maxHeight < child.height + y ? child.height + y : maxHeight;
         }
         this.height = maxHeight;
@@ -258,9 +256,9 @@ public class BlockContainer extends Block {
 
     @Override
     public boolean validate() {
-        for(Block block:children){
-            boolean valid=block.validate();
-            if(!valid){
+        for (Block block : children) {
+            boolean valid = block.validate();
+            if (!valid) {
                 return false;
             }
         }
@@ -271,51 +269,47 @@ public class BlockContainer extends Block {
     /**
      * calculating the y position for all blocks based on their baseline
      */
-    private void calculateYPosition(){
-            if (children.size() != 0) {
-                children.get(0).y = 0;
-                float baseLine = children.get(0).getBaseLine();
-                for (int i = 1; i < children.size(); i++) {
-                    Block child = children.get(i);
-                    float baseline1 = children.get(i).getBaseLine();
-                    child.y = baseLine - baseline1;
-                }
-            }
+    private void calculateYPosition() {
+        float baseLine = children.get(0).getBaseLine();
+        for (Block child : children) {
+            child.y = baseLine - child.getBaseLine();
+        }
     }
 
     /**
      * calculating the x positions of all children
      * warning: always calculate the x position after calculating the height of all brackets
+     *
      * @param setting
      * @param textSize
      */
-    private void calculateXPosition(Setting setting,float textSize){
-            float currentX = 0;
-            float shiftX = setting.TEXT_SPACING * setting.scaleTextSize(textSize);
-            float spaceShiftX = setting.WORD_SPACING * setting.scaleTextSize(textSize); //used for space between words
-            float shiftOperator = setting.block_Margin_Operator * setting.scaleTextSize(textSize);
-            for (Block child : children) {
-                Block before = child.before();
-                if ((before != null && (before.getId() == TokenID.WORD || before.getId() == TokenID.PARENT))) {
+    private void calculateXPosition(Setting setting, float textSize) {
+        float currentX = 0;
+        float shiftX = setting.TEXT_SPACING * setting.scaleTextSize(textSize);
+        float spaceShiftX = setting.WORD_SPACING * setting.scaleTextSize(textSize); //used for space between words
+        float shiftOperator = setting.block_Margin_Operator * setting.scaleTextSize(textSize);
+        for (Block child : children) {
+            Block before = child.before();
+            if ((before != null && (before.getId() == TokenID.WORD || before.getId() == TokenID.PARENT))) {
                     /*this used only in description */
-                    currentX += spaceShiftX;
-                } else if (child.getId() == TokenID.Operator || (before != null && before.getId() == TokenID.Operator)) {
-                    currentX += shiftOperator;
-                } else if (child.getId() != TokenID.POWER) {
-                    currentX += shiftX;
-                }
-                child.x = currentX;
-                currentX += child.width;
+                currentX += spaceShiftX;
+            } else if (child.getId() == TokenID.Operator || (before != null && before.getId() == TokenID.Operator)) {
+                currentX += shiftOperator;
+            } else if (child.getId() != TokenID.POWER) {
+                currentX += shiftX;
             }
+            child.x = currentX;
+            currentX += child.width;
+        }
     }
 
     /**
      * calculating the width of the entire block (this)
      */
-    private void calculateContainerWidth(){
-            if (children.size() != 0) {
-                Block lastChild = children.get(children.size() - 1);
-                this.width = lastChild.width + lastChild.x;
-            }
+    private void calculateContainerWidth() {
+        if (children.size() != 0) {
+            Block lastChild = children.get(children.size() - 1);
+            this.width = lastChild.width + lastChild.x;
+        }
     }
 }

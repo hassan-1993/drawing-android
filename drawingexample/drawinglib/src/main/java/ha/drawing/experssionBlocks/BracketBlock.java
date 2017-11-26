@@ -63,17 +63,6 @@ public class BracketBlock extends Block {
 
         }
 
-//        Paint border=new Paint();
-//        border.setStrokeWidth(4);
-//        border.setStyle(Paint.Style.STROKE);
-//        border.setColor(Color.BLUE);
-//
-////        c.drawRect(rectF.left+x+offsetX,rectF.top+y+offsetY,rectF.right+x+offsetX,rectF.bottom+y+offsetY,border);
-//
-//        border.setColor(Color.LTGRAY);
-//
-//        c.drawRect(x+offsetX,y+offsetY,x+offsetX,y+offsetY,border);
-
     }
 
 
@@ -95,7 +84,7 @@ public class BracketBlock extends Block {
         float scale=textSize/setting.DefaultTextSize;
         /*PS:if zero means not set already */
         if(this.height==0)
-        this.height=setting.Rect_Height*scale;
+        this.height=setting.RECT_HEIGHT*scale;
 
         float c = this.height * setting.Bracket_Width_Fraction;
         this.width = c < setting.Min_Bracket_Width ? setting.Min_Bracket_Width : c;

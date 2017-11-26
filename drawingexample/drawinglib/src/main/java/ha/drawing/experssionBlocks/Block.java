@@ -20,7 +20,8 @@ import ha.drawing.Setting;
 public abstract class Block {
 
 
-    public float x,y,width,height;
+    public float x,y;
+    public float width,height;
     public TokenID tokenID;
     protected String text;
     private Integer color=null;
@@ -66,7 +67,7 @@ public abstract class Block {
     }
 
     public void build(Setting setting, Paint paint, float textSize){
-        this.strokeWidth= (int) (setting.Defualtstroke*textSize/setting.DefaultTextSize);
+        this.strokeWidth= (int) setting.scale(setting.Defualtstroke,textSize);
         builder(setting,paint,textSize);
     }
 
@@ -188,5 +189,26 @@ public abstract class Block {
 
     public List<Block> getChildren(){
         return null;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public float getWidth(){
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public void setHeight(float height){
+        this.height=height;
+    }
+
+    public void setMeasurement(float width, float height) {
+        this.width=width;
+        this.height=height;
     }
 }

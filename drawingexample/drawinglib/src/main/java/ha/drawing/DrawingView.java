@@ -26,7 +26,7 @@ public class DrawingView extends View{
 
     public DrawingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        block = new BlockHelper().buildBlocks("(3/2+(3/2)^(5+3/2+(3/2)^(5)+(3/2)^5)+(3/2)^5)^5");
+        block = new BlockHelper().buildBlocks("((2/4/5)^5)^(5)+(9)");
     }
 
 

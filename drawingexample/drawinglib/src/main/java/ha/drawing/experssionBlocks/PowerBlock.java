@@ -46,9 +46,7 @@ public class PowerBlock extends Block {
 
     @Override
     public float getBaseLine() {
-        /*if same as the baseline before it ,it will remain at zero origin with respect to before it
-        * so we add to this zero the inside powerblock height so it becomes lower than zero by this power block height*/
-        return before().getBaseLine()+powerBlock.height+powerHeightOffset;
+        return before().getBaseLine()+powerBlock.getHeight()+powerHeightOffset;
     }
 
     @Override
@@ -60,15 +58,15 @@ public class PowerBlock extends Block {
 
     @Override
     protected void builder(Setting setting, Paint paint, float textSize) {
-        float scale = textSize / setting.DefaultTextSize;
-        float newtextsize = setting.PowerScaleProportion * textSize;
-        powerBlock.build(setting,paint,newtextsize);
-        powerBlock.x=scale * setting.PowerWidth;
-        powerHeightOffset= (int) (setting.PowerHeight * scale);
-        this.height=powerBlock.height+powerHeightOffset+before().height;
-        this.width=powerBlock.width+powerBlock.x;
+        powerBlock.build(setting,paint,setting.PowerScaleProportion * textSize);
 
+        powerBlock.x=setting.scale(setting.PowerWidth,textSize);
+        powerHeightOffset= (int) setting.scale(setting.PowerHeight, textSize);
 
+        float height=powerBlock.getHeight()+powerHeightOffset+before().getHeight();
+        float width=powerBlock.getWidth()+powerBlock.x;
+
+        setMeasurement(width,height);
     }
 
     public BlockContainer getPower(){

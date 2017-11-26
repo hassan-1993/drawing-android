@@ -148,26 +148,26 @@ public class MatrixBlock extends Block {
         if (!disableBracket) {
             {
         /*building height and width of the left and rightbracket*/
-                leftBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).height;
-                rightBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).height;
+                leftBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).getHeight();
+                rightBracket.height = rows.get(rows.size() - 1).y + rows.get(rows.size() - 1).getHeight();
                 leftBracket.build(setting, paint, textSize);
                 rightBracket.build(setting, paint, textSize);
                 /**********************************************************/
             }
         /*reshift the position of rows based on leftbracket */
             for (BlockContainer row : rows) {
-                row.x = leftBracket.x + leftBracket.width;
+                row.x = leftBracket.x + leftBracket.getWidth();
             }
-            rightBracket.x = rows.get(0).x + rows.get(0).width;
-            this.width = rightBracket.x + rightBracket.width;
+            rightBracket.x = rows.get(0).x + rows.get(0).getWidth();
+            setWidth(rightBracket.x + rightBracket.getWidth());
         }
 
 
-//        this.rectF=new RectF(-shift*2,-shift,this.width+shift*2,this.height+shift);
+//        this.rectF=new RectF(-shift*2,-shift,this.width+shift*2,this.getHeight()+shift);
 //        for (BlockContainer row : rows) {
-//            row.rectF=new RectF(-shift*2,-shift,row.width+shift*2,row.height+shift);
+//            row.rectF=new RectF(-shift*2,-shift,row.width+shift*2,row.getHeight()+shift);
 //            for(Block col:row.getChildren()){
-//                col.rectF=new RectF(-shift*2,-shift,col.width+shift*2,col.height+shift);
+//                col.rectF=new RectF(-shift*2,-shift,col.width+shift*2,col.getHeight()+shift);
 //            }
 //        }
     }
@@ -187,19 +187,19 @@ public class MatrixBlock extends Block {
         float currentY = Matrix_TopBottom_margin;
 
 
-        //now shift y positions and set the row height
+        //now shift y positions and set the row getHeight()
         for (BlockContainer row : rows) {
             float maxHeight = 0;
             row.y = currentY;
             for (Block col : row.getChildrens()) {
-                maxHeight = maxHeight < col.height + col.y ? col.height + col.y : maxHeight;
+                maxHeight = maxHeight < col.getHeight() + col.y ? col.getHeight() + col.y : maxHeight;
             }
             row.height = maxHeight;
             currentY += offsetRow + maxHeight;
         }
         //the height of matrix is the y position of last block plus its height
         Block lastrow = rows.get(rows.size() - 1);
-        this.height = lastrow.y + lastrow.height;
+        this.setHeight(lastrow.y + lastrow.getHeight());
 
 //        for (BlockContainer row : rows) {
 //            for (Block col : row.getChildrens()) {
@@ -208,20 +208,20 @@ public class MatrixBlock extends Block {
 //        }
 
 
-        this.height += Matrix_TopBottom_margin;
+        this.setHeight(getHeight()+Matrix_TopBottom_margin);
 
 
         /*recenter the y position for each col in every row based on the biggest column height*/
         for (BlockContainer row : rows) {
             float maxHeight = 0;
             for (Block col : row.getChildren()) {
-                if (maxHeight < col.height) {
-                    maxHeight = col.height;
+                if (maxHeight < col.getHeight()) {
+                    maxHeight = col.getHeight();
                 }
             }
 
             for (Block col : row.getChildren()) {
-                col.y = maxHeight / 2 - col.height / 2;
+                col.y = maxHeight / 2 - col.getHeight() / 2;
             }
         }
     }
@@ -242,11 +242,11 @@ public class MatrixBlock extends Block {
         for (BlockContainer row : rows) {
 
             for (Block col : row.getChildrens()) {
-                if (maxColWidth[index] < col.width) {
-                    maxColWidth[index] = col.width;
+                if (maxColWidth[index] < col.getWidth()) {
+                    maxColWidth[index] = col.getWidth();
                     startX[index] = col.x;
                 }
-                // maxColWidth[index]=maxColWidth[index]<col.width?col.width:maxColWidth[index];
+                // maxColWidth[index]=maxColWidth[index]<col.getWidth()?col.getWidth():maxColWidth[index];
                 index++;
             }
             index = 0;
@@ -266,12 +266,12 @@ public class MatrixBlock extends Block {
         for (BlockContainer row : rows) {
             for (Block col : row.getChildrens()) {
                 if (centerColumn) //if true means center the column according to max width of all columns
-                    col.x = col.x + maxColWidth[index] / 2 - col.width / 2;
+                    col.x = col.x + maxColWidth[index] / 2 - col.getWidth() / 2;
 
                 col.x += (index * offsetCol);
                 index++;
             }
-            row.width = row.getChildrens().get(row.getChildrens().size() - 1).x + row.getChildrens().get(row.getChildrens().size() - 1).width;
+            row.setWidth(row.getChildrens().get(row.getChildrens().size() - 1).x + row.getChildrens().get(row.getChildrens().size() - 1).getWidth());
             index = 0;
 
         }
@@ -281,13 +281,13 @@ public class MatrixBlock extends Block {
 
         // getting maximum row width
         for (Block row : rows) {
-            maxWidth = maxWidth < row.width ? row.width : maxWidth;
+            maxWidth = maxWidth < row.getWidth() ? row.getWidth() : maxWidth;
         }
         for (Block row : rows) {
-            row.width = maxWidth;
+            row.setWidth(maxWidth);
         }
 
-        this.width = maxWidth;
+        setWidth(maxWidth);
     }
 
     /*return the row index if caller is a column*/
