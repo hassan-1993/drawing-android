@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 
@@ -23,10 +24,10 @@ public class Setting {
     public  float Rect_Min_Width=0; //the width of block with TokenID T_EMPTY
 
 
-    public float TEXT_SPACING=8;
-    public float WORD_SPACING=20; //used between words
+    public @CalculatedField float TEXT_SPACING=8;
+    public @CalculatedField float WORD_SPACING=20; //used between words
     public float RECT_HEIGHT=80; //the height of a block that contain text like 9
-    public float block_Margin_Operator=10; //left and right margin of block containing for  operator * - = or + or  in case  there two division near each other like equation {5/5}{4/4}  we addNewEquation a margin left for first one {5/5}
+    public @CalculatedField float block_Margin_Operator=10; //left and right margin of block containing for  operator * - = or + or  in case  there two division near each other like equation {5/5}{4/4}  we addNewEquation a margin left for first one {5/5}
 
 
 
@@ -36,26 +37,26 @@ public class Setting {
     /***********************for division*********************************/
     public   float DivisonHeight=0; //height of division since it is drawn as a rectangle with height and width ,stroke width
     public   float DivisonWidthFactor=1f; //if we have 3/4/5 the first division width will be multiply by DivisonWidthFactor and second one will have the width of first one times DivisonWidthFactor
-    public  float DivisionOffsetWidth=30; //extra width addNewEquation to left and right of a division
-    public float block_Division_Margin =10; //division margin bottom and top
+    public  @CalculatedField float DivisionOffsetWidth=30; //extra width addNewEquation to left and right of a division
+    public @CalculatedField float block_Division_Margin =10; //division margin bottom and top
     /***********************for division*********************************/
 
     /********************for bracket***************************/
-    public float max_Bracket_Width=120f; //maximum width of bracket
+    public @CalculatedField float max_Bracket_Width=120f; //maximum width of bracket
     public  float Bracket_Width_Fraction=0.27f; //the width of bracket equal=Bracket_Width_Fraction*height of bracket and mus be between maximum width and minimum width
-    public  float Min_Bracket_Width=1f; //minimum width of bracket
+    public @CalculatedField float Min_Bracket_Width=1f; //minimum width of bracket
     /******************************************************************/
 
 
     /********************for Power***************************/
-    public   float PowerHeight=0;//the power height ,negative value means move closer
-    public   float PowerWidth=0;//width of power like for example value=3 and 5^4 means x position of 4 is 3 pixal away from the end of 5
+    public @CalculatedField float PowerHeight=0;//the power height ,negative value means move closer
+    public @CalculatedField float PowerWidth=0;//width of power like for example value=3 and 5^4 means x position of 4 is 3 pixal away from the end of 5
     public  float PowerScaleProportion=0.88f; //how much to scale down the textsize going with each power ,
 
 
     /********************for base***************************/
-    public  float BaseOffsetHeight=0;//the base height ,negative value means closer to something like log
-    public float BaseOffsetWidth=0;////width of base like for example value=3 and log(4,3) means x position of 4 is 3 pixal away from the end of log
+    public @CalculatedField float BaseOffsetHeight=0;//the base height ,negative value means closer to something like log
+    public @CalculatedField float BaseOffsetWidth=0;////width of base like for example value=3 and log(4,3) means x position of 4 is 3 pixal away from the end of log
     public   float BaseScaleProportion=0.83f;  //how much to scale down the textview going with each log
     /********************for base***************************/
 
@@ -68,11 +69,11 @@ public class Setting {
 
 
     /**************for drawing of radical***********/
-    public float maxHeight=10000; //maximum allowed height distance between point b and c to be drawn in the radicalblock
-    public  float paddingTop_radical=15; //padding top //for example if value=10 means there will be a padding of 10 from what inside the radical from top
-    public  float ExtraRadicalWidth=20; //padding right//for example if value=10 means extra width of radical equal 10
-    public  float ExtraRadicalHeight=5; //padding bottom//for example if value=8 means extra radical height will be 8px which means it is the bottom margin of radical
-    public  float ExtraPadding_RadicalLeft=10;//padding left //extra padding from left of inside the radical
+    public @CalculatedField float maxHeight=10000; //maximum allowed height distance between point b and c to be drawn in the radicalblock
+    public @CalculatedField float paddingTop_radical=15; //padding top //for example if value=10 means there will be a padding of 10 from what inside the radical from top
+    public @CalculatedField float ExtraRadicalWidth=20; //padding right//for example if value=10 means extra width of radical equal 10
+    public @CalculatedField float ExtraRadicalHeight=5; //padding bottom//for example if value=8 means extra radical height will be 8px which means it is the bottom margin of radical
+    public @CalculatedField float ExtraPadding_RadicalLeft=10;//padding left //extra padding from left of inside the radical
     public float ExtraPaddingTopFraction=1.02f; //5% more padding
 
     /**************for drawing of radical*/
@@ -80,9 +81,9 @@ public class Setting {
 
 
     /***************for matrix*******************/
-    public  float offsetColX=85;  //offset x between two consecutive cols
-    public  float offsetRowY=38;  //offset y between two consecutive rows
-    public  float TopBottomOffsetY=20;  //padding y from above and bottom of the matrix
+    public @CalculatedField float offsetColX=85;  //offset x between two consecutive cols
+    public @CalculatedField float offsetRowY=38;  //offset y between two consecutive rows
+    public @CalculatedField float TopBottomOffsetY=20;  //padding y from above and bottom of the matrix
     /***************for matrix******************/
 
 
@@ -139,63 +140,37 @@ public class Setting {
     }
 
     protected  void init(float textsize){
-        if(init) return;
-        init=true;
+        if(init)
+            return;
+        init = true;
 
-        float scaler=textsize/DefaultTextSize; //so we can adjust all the variables according to this value since for example small textsize will have smaller block margin and large bigger
+        // Scale all the values according to the text size.
+        // So we can adjust all the variables:- for example small text size will have smaller block margin and large bigger
+        float scale = scaleTextSize(textsize);
 
-        DefaultTextSize=textsize;
-        RECT_HEIGHT=textsize*0.95f;
-
-        TEXT_SPACING=TEXT_SPACING*scaler;
-        WORD_SPACING=WORD_SPACING*scaler;
-        block_Margin_Operator= block_Margin_Operator*scaler; //left and right margin of block containing for  operator * - = or + or  in case  there two division near each other like equation {5/5}{4/4}  we addNewEquation a margin left for first one {5/5}
+        DefaultTextSize = textsize;
+        RECT_HEIGHT = textsize*0.95f;
 
         // TODO: 11/4/2017  remove the comment
         //float px = UnitConverter.dpToPx(Defualtstroke);
         float px=1;
         Defualtstroke=px;
         MinumumDefualtstroke=px*0.5f;
-
-
-        /***********************for division*********************************/
         DivisonHeight=px; //height of division since it is drawn as a rectangle with height and width ,stroke width
-        DivisionOffsetWidth=DivisionOffsetWidth*scaler; //extra width  to left and right of a division line
-        block_Division_Margin =block_Division_Margin*scaler; //division line margin bottom and top
-        /***********************for division*********************************/
 
-        /********************for bracket***************************/
-        max_Bracket_Width=max_Bracket_Width*scaler; //maximum width of bracket
-        Min_Bracket_Width=Min_Bracket_Width*scaler; //minimum width of bracket
-        /******************************************************************/
-
-
-        /********************for Power***************************/
-        PowerHeight=PowerHeight*scaler;//the power height ,negative value means move closer
-        PowerWidth=PowerWidth*scaler;//width of power like for example value=3 and 5^4 means x position of 4 is 3 pixal away from the end of 5
-
-
-        /********************for base***************************/
-        BaseOffsetHeight=BaseOffsetHeight*scaler;//the base height ,negative value means closer to something like log
-        BaseOffsetWidth=BaseOffsetWidth*scaler;////width of base like for example value=3 and log(4,3) means x position of 4 is 3 pixal away from the end of log
-
-
-
-        /**************for drawing of radical***********/
-        maxHeight=maxHeight*scaler; //maximum allowed height distance between point b and c to be drawn in the radicalblock
-        paddingTop_radical=paddingTop_radical*scaler; //padding top //for example if value=10 means there will be a padding of 10 from what inside the radical from top
-        ExtraRadicalWidth=ExtraRadicalWidth*scaler; //padding right//for example if value=10 means extra width of radical equal 10
-        ExtraRadicalHeight=ExtraRadicalHeight*scaler; //padding bottom//for example if value=8 means extra radical height will be 8px which means it is the bottom margin of radical
-        ExtraPadding_RadicalLeft=ExtraPadding_RadicalLeft*scaler;//padding left //extra padding from left of inside the radical
-        /**************for drawing of radical*/
-
-
-
-        /***************for matrix*******************/
-        offsetColX=offsetColX*scaler;  //offset x between two consecutive cols
-        offsetRowY=offsetRowY*scaler;  //offset y between two consecutive rows
-        TopBottomOffsetY=TopBottomOffsetY*scaler;  //padding y from above and bottom of the matrix
-        /***************for matrix******************/
+        // Use reflection to find all the values that need to be scaled.
+        for(Field field : getClass().getFields()){
+            CalculatedField statusAnnotation = field.getAnnotation(CalculatedField.class);
+            if(statusAnnotation != null) {
+                try {
+                    Float value = field.getFloat(this);
+                    value *= scale;
+                    field.setFloat(this, value);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
